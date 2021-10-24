@@ -1,0 +1,39 @@
+.follow_card:hover {
+  background-color: #202e3a;
+}
+
+.follow_card {
+  padding: 0.65em 1em;
+  transition: background-color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+}
+
+.text {
+  margin-left: 1em;
+}
+
+.text p {
+  color: var(--my-gray);
+}
+
+.text:hover h4 {
+  text-decoration: underline;
+}
+
+.follow_card button {
+  background-color: white;
+  border-radius: 2rem;
+  width: 70px;
+  height: 30px;
+  font-weight: 600;
+  border: none;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.follow_card button:hover {
+  background-color: #d7dbdc;
+}

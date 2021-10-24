@@ -1,0 +1,21 @@
+.who_to_follow {
+  background-color: var(--blue-gray-dark);
+  border-radius: 1rem;
+  overflow: hidden;
+  
+}
+
+.who_to_follow h3 {
+  font-weight: 900;
+  padding: 0.65em 1em;
+}
+
+.who_to_follow > p {
+  padding: 1em 1em;
+  color: var(--light-blue);
+}
+
+.who_to_follow > p:hover {
+  cursor: pointer;
+  background-color: #202e3a;
+}

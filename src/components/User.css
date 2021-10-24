@@ -1,0 +1,61 @@
+.active-user {
+  margin-top: 2rem;
+  position: relative;
+}
+.active-user-container:hover {
+  background-color: #202e3a;
+}
+.active-user-pic,.model-user-pic {
+  height: 2rem;
+  display: block;
+  border-radius: 50%;
+}
+.active-user-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  padding: .5rem .4rem;
+  border-radius: 10rem;
+}
+.ellipsis-dots {
+    margin-left: auto;
+}
+.active-user-details {
+  margin-left: 0.5rem;
+}
+.active-user-details p{
+    color: var(--my-gray);
+}
+
+
+/**** signout model **/
+.signout-model{
+    z-index: 10000;
+    position: absolute;
+    top: -8.5rem;
+    left: -1rem;
+    width: 20rem;
+    border-radius: 10px;
+    background-color: var(--dark-blue);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.144);
+}
+.model-user-container{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 1px solid var(--blue-gray-light);
+  padding: 1rem;
+}
+.model-logout-btn{
+    width: 100%;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 1rem;
+    margin-top: .1rem;
+    transition: background-color 0.2s ease-in-out;
+}
+.model-logout-btn:hover{
+    background-color: #202e3a;
+}

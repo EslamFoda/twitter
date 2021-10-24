@@ -1,0 +1,54 @@
+.twitter_logo {
+  margin-block: 0.4em;
+  border-radius: 4rem;
+  padding-block: 0.6em;
+  cursor: pointer;
+}
+
+.twitter_logo:hover {
+  background-color: #162d3f;
+}
+
+.leftmenu_elem {
+  width: fit-content;
+  display: flex;
+  padding: 0.6em 0.8em;
+  cursor: pointer;
+  border-radius: 2rem;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.leftmenu_elem + .leftmenu_elem {
+  margin-top: 0.3em;
+}
+
+.leftmenu_elem:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.leftmenu_elem h2 {
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-left: 1em;
+}
+
+.active h2 {
+  font-weight: 700;
+}
+
+.tweet_button {
+  border: none;
+  border-radius: 2rem;
+  height: 50px;
+  width: 100%;
+  margin-top: 1em;
+  background-color: var(--light-blue);
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.tweet_button:hover {
+  background-color: #1a8cd8;
+}

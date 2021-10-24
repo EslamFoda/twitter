@@ -1,0 +1,35 @@
+.mainsection {
+  border-left: 1px solid var(--blue-gray-light);
+  border-right: 1px solid var(--blue-gray-light);
+}
+
+.mainsection > * {
+  border-bottom: 1px solid var(--blue-gray-light);
+}
+
+.mainsection > *:not(:nth-child(2)) {
+  cursor: pointer;
+}
+
+.home_topbar {
+  padding: 0.6em 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.home_topbar:hover {
+  background-color: #15202b;
+}
+
+.toptweets {
+  padding: 0.2em;
+  border-radius: 0.6rem;
+  margin-right: -0.4em;
+}
+
+.toptweets:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

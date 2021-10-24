@@ -1,38 +1,110 @@
-.App {
-  text-align: center;
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+  --dark-blue: #15202b;
+  --light-blue: #1d9bf0;
+  --blue-gray: #253341;
+  --blue-gray-light: #38444d;
+  --blue-gray-dark: #192734;
+  --my-gray: #8899a6;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+body {
+  background-color: var(--dark-blue);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+
+.main-timeline {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+   max-width: 1260px;
+}
+.leftsection {
+  flex-basis: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 98vh;
+  position: fixed;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.rightsection {
+  flex-basis: 32%;
+  background-attachment: fixed;
+}
+
+.mainsection {
+  flex-basis: 48%;
+  margin-left: 16rem;
+  max-width: 600px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--blue-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--light-blue);
+  border-radius: 1rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1786cf;
+}
+
+@media screen and (max-width: 1200px) {
+  .rightsection {
+    display: none;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media screen and (max-width: 800px) {
+  :root {
+    font-size: 14px;
+  }
+  .main-timeline {
+    width: auto;
+    display: block;
+  }
+  .leftsection {
+    display: none;
+  }
+  .rightsection {
+    display: none;
+  }
+  .mainsection {
+    margin: 0 auto;
+    flex-basis: 0%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  :root {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  :root {
+    font-size: 10px;
   }
 }

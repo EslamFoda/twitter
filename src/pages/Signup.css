@@ -1,0 +1,104 @@
+.signup-container {
+    background-color: rgba(91, 112, 131, 0.4);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.form-container{
+    width: 600px;
+    background-color: rgb(21, 32, 43);
+    border-radius: 15px;
+}
+.form-head{
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: .5rem .5rem;
+}
+.form-twiter-icon{
+    font-size: 2.5rem;
+    
+}
+.form-close-icon{
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: .5rem;
+    border-radius: 50%;
+}
+.form-close-icon:hover{
+    background-color: rgba(255, 255, 255, 0.089);
+}
+.main-form{
+    padding: 0 2rem 2rem 2rem;
+}
+.main-form input {
+    width: 100%;
+    display: block;
+    margin-bottom: 1.5rem;
+    background: rgb(21, 32, 43);
+    border: 1px solid #828a90;
+    padding: 1rem .5rem;
+    color: #e2eaf1;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+.main-form input:focus{
+    outline: none;
+    border:1px solid #1a7cbf;
+}
+.signup-btn{
+    background: white;
+    border: none;
+    width: 100%;
+    color: rgb(21, 32, 43);
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 10vw;
+    margin: 1rem 0 1rem 0;
+    cursor: pointer;
+}
+.signup-btn:hover{
+    opacity: .8;
+}
+.signup-btn:disabled{
+    background: #828a90;
+    opacity: .8;
+    cursor: default;
+}
+.logout-form{
+    width: 400px;
+}
+.cancel-btn{
+background: rgba(255, 255, 255, 0);
+border: none;
+width: 100%;
+color: rgb(255, 255, 255);
+padding: 1rem;
+border: 1px solid white;
+font-size: 1rem;
+font-weight: bold;
+border-radius: 10vw;
+transition: all .2s ease-in-out;
+cursor: pointer;
+}
+.cancel-btn:hover{
+    background-color: rgba(255, 255, 255, 0.082);
+}
+.logout-btn{
+    background: white;
+    border: none;
+    width: 100%;
+    color: rgb(21, 32, 43);
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 10vw;
+    margin: 1rem 0 1rem 0;
+    cursor: pointer;
+}
+.logout-btn:hover{
+    opacity: .9;
+}

@@ -1,0 +1,102 @@
+.rightsection {
+  padding: 0 2em;
+}
+
+.search_box {
+  position: relative;
+  
+}
+.right-sticky {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+}
+.search_icon {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+
+.search {
+  margin-top: 0.25rem;
+  width: 100%;
+  border-radius: 3rem;
+  border: 1px solid transparent;
+  height: 3rem;
+  padding-inline: 3.25rem;
+  background-color: var(--blue-gray);
+  color: var(--white);
+  font-size: 1rem;
+}
+
+.search::placeholder {
+  color: var(--my-gray);
+}
+
+.search:focus {
+  outline: none;
+  border: 1px solid var(--light-blue);
+  background-color: transparent;
+}
+
+.search:focus ~ .search_icon {
+  filter: invert(43%) sepia(83%) saturate(717%) hue-rotate(167deg)
+    brightness(101%) contrast(94%);
+}
+
+.x_icon {
+  position: absolute;
+  top: 1.3rem;
+  right: 1.25rem;
+  cursor: pointer;
+  display: none;
+}
+
+.search:focus ~ .x_icon {
+  display: block;
+}
+
+hr {
+  margin-block: 1em;
+  opacity: 0.5;
+  border: 1px solid var(--blue-gray);
+  background-color: var(--blue-gray);
+}
+
+.terms {
+  padding: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+}
+
+.terms span:not(:last-child) {
+  cursor: pointer;
+}
+.terms span {
+  color: var(--my-gray);
+  font-size: 0.8rem;
+}
+
+.terms span:not(:last-child):hover {
+  text-decoration: underline;
+}
+
+.checkMe {
+  padding: 1em;
+  color: var(--my-gray);
+  font-size: 1.4rem;
+}
+
+.checkMe a {
+  font-weight: bold;
+  text-decoration-thickness: 1px;
+}
+
+.checkMe a:hover {
+  text-decoration: underline;
+}
+
+.checkMe p {
+  margin-top: 1em;
+}

@@ -1,0 +1,71 @@
+.whatshappening {
+  display: flex;
+  padding: 1em;
+  padding-top: 0.6em;
+}
+
+.newtweet {
+  width: 100%;
+  margin-left: 0.8em;
+  display: flex;
+  flex-direction: column;
+}
+
+.newtweet_input {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  padding-block: 0.8em;
+  color: white;
+  line-clamp: 2;
+}
+
+.newtweet_input:focus {
+  outline: none;
+}
+
+.newtweet_input::placeholder {
+  color: var(--my-gray);
+}
+
+.newtweet_options {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.newtweet_options .icons {
+  margin-top: 1em;
+  display: flex;
+  margin-left: -0.5em;
+}
+
+.newtweet_options .icons img {
+  cursor: pointer;
+  border-radius: 35%;
+  padding: 0.4em;
+}
+
+.newtweet_options .icons img:hover {
+  background-color: #162d3f;
+}
+
+.newtweet_button {
+  width: 80px;
+  border: none;
+  border-radius: 2rem;
+  height: 35px;
+  background-color: var(--light-blue);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.newtweet_button:hover {
+  background-color: #1a8cd8;
+}
+
+.icons img {
+  transform: scale(0.9);
+}
