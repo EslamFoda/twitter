@@ -7,7 +7,7 @@ import Welcome from "./pages/Welcome";
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
-import Test from './pages/Test';
+
 function App() {
   return (
     <div className="App">
@@ -29,9 +29,7 @@ function App() {
           <Route path='/login'>
             <Login />
           </Route>
-          <Route path='/test'>
-            <Test/>
-          </Route>
+         
           <Route path='/logout'>
             <Logout />
           </Route>
