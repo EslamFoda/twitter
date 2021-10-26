@@ -1,26 +1,13 @@
-import { useEffect, useState } from "react";
-import useAuth from "../hooks/user-auth";
-import { database } from "../library/firebase";
+import { useState } from "react";
+import useCurrentUser from "../hooks/useCurrentUser";
 import { Link } from "react-router-dom";
 import './User.css'
 const User = () => {
-    const [activeUser,setActiveUser] = useState(null)
+    const {activeUser} = useCurrentUser()
     const [signoutModel,setSignoutModel] = useState(false)
-    const {user} = useAuth()
+   
   
-    useEffect(() => {
-      const unsub = database
-        .collection("users")
-        .where("userId", "==", user.uid)
-        .onSnapshot((snap) => {
-          snap.docs.forEach((doc) => {
-            setActiveUser({ ...doc.data(), docId: doc.id });
-          });
-        });
-
-      return () => unsub();
-    }, [user]);
-    
+   
     
     return (
       <div className="active-user">

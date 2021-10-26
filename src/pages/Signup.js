@@ -34,11 +34,12 @@ const Signup = () => {
                 "https://i.pinimg.com/474x/b7/cf/46/b7cf46c96e503fdec995645e70d95705.jpg",
               bio: "",
               followers: [],
-              follwoing: [],
+              following: [],
               tweets: [],
               userId: createAccount.user.uid,
             };
-            database.collection("users").add(newUser);
+            database.collection("users").add({...newUser});
+            history.push('/home')
           } catch (error) {
             setError(error.message);
           }

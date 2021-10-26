@@ -1,11 +1,24 @@
 import './MainSection.css';
-
+import { database } from '../library/firebase';
 import Tweet from './Tweet';
 import WhatsHappening from './WhatsHappening';
 import topTweetsIcon from '../assets/stars.svg';
+import { useEffect, useState } from 'react';
+
 
 const MainSection = () => {
-  const tweets = [
+  const [tweets, setTweets] = useState(null);
+  useEffect(()=>{
+    const unsub = database.collection('tweets').orderBy('createdAt','desc').onSnapshot(snap=>{
+      let result = []
+      snap.docs.forEach(doc=>{
+        result.push({...doc.data(),id:doc.id})
+      })
+      setTweets(result);
+    })
+    return ()=> unsub()
+  },[])
+  const posts = [
     {
       id: 1,
       name: 'Omar AbdulRahman',
@@ -82,20 +95,21 @@ const MainSection = () => {
         <img src={topTweetsIcon} alt="Top Tweets" className="toptweets" />
       </div>
       <WhatsHappening />
-      {tweets.map((tweet, index) => (
-        <Tweet
-          key={index}
-          name={tweet.name}
-          user={tweet.user}
-          date={tweet.date}
-          text={tweet.text}
-          verified={tweet.verified}
-          image={tweet.image}
-          replies={tweet.replies}
-          retweets={tweet.retweets}
-          likes={tweet.likes}
-        />
-      ))}
+      {tweets &&
+        tweets.map(tweet => (
+          <Tweet
+            key={tweet.id}
+            name={tweet.fullName}
+            user={tweet.username}
+            date={tweet.createdAt}
+            text={tweet.tweet}
+            verified={true}
+            image={tweet.imgUrl}
+            replies={tweet.comments.length}
+            retweets={tweet.retweets}
+            likes={tweet.likes.length}
+          />
+        ))}
     </div>
   );
 };
