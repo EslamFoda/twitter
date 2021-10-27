@@ -110,6 +110,10 @@
   filter: invert(23%) sepia(88%) saturate(3324%) hue-rotate(318deg)
     brightness(100%) contrast(104%);
 }
+.active-like{
+  filter: invert(23%) sepia(88%) saturate(3324%) hue-rotate(318deg)
+    brightness(100%) contrast(104%);
+}
 
 .icon_wrapper:nth-child(3):hover {
   background-color: #32253a;

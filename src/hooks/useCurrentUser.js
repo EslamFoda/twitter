@@ -16,6 +16,7 @@ const useCurrentUser = () => {
 
     return () => unsub();
   }, [user]);
+  
   return { activeUser }
 };
 export default useCurrentUser;

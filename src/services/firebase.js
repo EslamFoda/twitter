@@ -41,3 +41,37 @@ export async function getSuggestedFollowers(id,following) {
     .map((user) => ({...user.data(),docId:user.id}))
     .filter(profile=> profile.userId !== id && !following.includes(profile.userId))
 }
+
+
+/*****get logged in user tweets */
+
+export async function getLoggedInUserTweets(id){
+  let tweets = null
+  const result = await database
+    .collection("tweets")
+    .orderBy("createdAt", "desc")
+    .where("userId", "==", id)
+    .get();
+
+   return tweets = result.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    
+}
+
+/*** get following user tweets */
+export async function getFollowingUsersTweets(following){
+  let followingTweets;
+  if(following.length > 0){
+    const result = await database
+      .collection("tweets")
+      .orderBy("createdAt", "desc").where('userId','in',following).get()
+      return followingTweets = result.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+  } else {
+    return followingTweets = []
+  }
+}
+
+
+
