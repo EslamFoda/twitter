@@ -9,8 +9,8 @@ import shareIcon from "../assets/share.svg";
 import verifiedIcon from "../assets/verified.svg";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { useHistory } from "react-router-dom";
-
-const Tweet = ({
+import "./SelectedTweet.css";
+const SelectedTweet = ({
   name,
   user,
   date,
@@ -25,29 +25,20 @@ const Tweet = ({
 }) => {
   const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
-  const history = useHistory()
-  
+  const history = useHistory();
 
   return (
-    <div className="tweet" onClick={(e)=>{
-      if(e.target.alt === 'likes'){
-        
-      } else {
-        history.push(`/tweet/${user}/${docId}`)
-      }
-    }}>
-      <Avatar
-        style={{
-          width: "3rem",
-          height: "3rem",
-          marginRight: "1em",
-          flexShrink: "0",
-        }}
-        {...config}
-      />
-      <div
-        className="tweet_content"
-      >
+    <div className="selected_tweet">
+      <div style={{ display: "flex" }}>
+        <Avatar
+          style={{
+            width: "3rem",
+            height: "3rem",
+            marginRight: "1em",
+            flexShrink: "0",
+          }}
+          {...config}
+        />
         <div className="tweet_header">
           <span className="tweet_name">{name}</span>
           {verified && (
@@ -56,12 +47,25 @@ const Tweet = ({
           <span className="tweet_username">@{user}</span>•
           <span className="tweet_date">{formatDistance(date, new Date())}</span>
         </div>
-        <pre className="tweet_text">{text}</pre>
+      </div>
+      <div className="tweet_content">
+        <h3 className="selected_tweet_text">{text}</h3>
         {image && <img className="tweet_image" src={image} alt={text} />}
+        <div className="tweet_likes_replies_container">
+          <span className="selected_tweet_replies">
+            <span style={{ color: "white", fontWeight: "bold" }}>
+              {replies}{" "}
+            </span>
+            Replies
+          </span>
+          <span>
+            <span style={{ color: "white", fontWeight: "bold" }}>{likes} </span>
+            Likes
+          </span>
+        </div>
         <div className="tweet_footer">
           <div className="icon_wrapper" onClick={() => console.log("yes")}>
             <img className="footer_icon" src={repliesIcon} alt="replies" />{" "}
-            <span>{replies}</span>
           </div>
           <div className="icon_wrapper">
             <img className="footer_icon" src={retweetIcon} alt="retweets" />{" "}
@@ -87,7 +91,6 @@ const Tweet = ({
                 src={likeIcon}
                 alt="likes"
               />{" "}
-              <span>{likes}</span>
             </div>
           ) : (
             <div
@@ -105,7 +108,6 @@ const Tweet = ({
               className="icon_wrapper"
             >
               <img className="footer_icon" src={likeIcon} alt="likes" />{" "}
-              <span>{likes}</span>
             </div>
           )}
           <div className="icon_wrapper">
@@ -117,4 +119,4 @@ const Tweet = ({
   );
 };
 
-export default Tweet;
+export default SelectedTweet;

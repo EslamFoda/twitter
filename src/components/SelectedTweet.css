@@ -1,0 +1,19 @@
+.tweet_likes_replies_container{
+    border: 1px solid var(--blue-gray-light);
+    margin: 1rem 0;
+    padding: .8rem 0;
+    border-left: none;
+    border-right: none;
+}
+.selected_tweet_replies{
+    margin-right: 1.5rem;
+}
+.selected_tweet{
+  padding: 0.8em 1em;
+  padding-bottom: 0.4em;
+  color: var(--my-gray);
+}
+.selected_tweet_text{
+    color: white;
+    margin: 1rem 0;
+}

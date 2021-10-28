@@ -69,10 +69,12 @@
   padding: 0.6em;
   border-radius: 2rem;
   width: 36px;
+  cursor: pointer;
 }
 
 .icon_wrapper span {
   padding-left: 0.2em;
+  
 }
 
 .icon_wrapper:last-child {
@@ -93,6 +95,7 @@
 .icon_wrapper:hover span {
   filter: invert(43%) sepia(83%) saturate(717%) hue-rotate(167deg)
     brightness(101%) contrast(94%);
+
 }
 
 .icon_wrapper:nth-child(2):hover .footer_icon,

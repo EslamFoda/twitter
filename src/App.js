@@ -7,6 +7,7 @@ import Welcome from "./pages/Welcome";
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
+import Tweet from './pages/Tweet';
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
               <RightSection />
             </div>
           </Route>
+          <Route path='/tweet/:username/:id'>
+            <Tweet />
+          </Route>
           <Route exact path="/">
             <Welcome />
           </Route>
@@ -29,7 +33,6 @@ function App() {
           <Route path='/login'>
             <Login />
           </Route>
-         
           <Route path='/logout'>
             <Logout />
           </Route>
