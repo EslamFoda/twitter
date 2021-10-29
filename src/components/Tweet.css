@@ -84,7 +84,17 @@
 .footer_icon {
   width: 1.2rem;
 }
-
+.more_btn{
+  margin-left: auto;
+  padding: .2rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.more_btn:hover{
+  filter: invert(43%) sepia(83%) saturate(717%) hue-rotate(167deg)
+    brightness(101%) contrast(94%);
+    background-color: rgba(255, 255, 255, 0.171);
+}
 /* Icons Colors and Hover States*/
 
 .icon_wrapper:hover {

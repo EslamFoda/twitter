@@ -10,6 +10,7 @@ import moreIcon from '../assets/more_circle.svg';
 import notificationsIcon from '../assets/notifications.svg';
 import profileIcon from '../assets/profile.svg';
 import twitterIcon from '../assets/twitter.svg';
+
 import User from './User';
 const LeftMenu = () => {
   return (
@@ -24,7 +25,9 @@ const LeftMenu = () => {
         <LMElement icon={listsIcon} title='Lists' />
         <LMElement icon={profileIcon} title='Profile' />
         <LMElement icon={moreIcon} title='More' />
-        <button className='tweet_button'>Tweet</button>
+        <button className='tweet_button' onClick={()=>{
+          console.log('yes')
+        }}>Tweet</button>
         <User/>
       </div>
       {/* <div className='bottom_section'>

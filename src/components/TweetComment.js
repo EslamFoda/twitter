@@ -1,19 +1,18 @@
 import "./Tweet.css";
 import { formatDistance } from "date-fns";
 import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
-import { database, FieldValue } from "../library/firebase";
+import { database } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
 import repliesIcon from "../assets/replies.svg";
 import retweetIcon from "../assets/retweet.svg";
 import shareIcon from "../assets/share.svg";
 import verifiedIcon from "../assets/verified.svg";
 import useCurrentUser from "../hooks/useCurrentUser";
-import { useHistory } from "react-router-dom";
-import { useContext, useState } from "react";
-import RemoveModel from "./RemoveModel";
+import RemoveComment from "./RemoveComment";
 import DeleteModelContext from "../context/DeleteModelContext";
+import { useContext, useState } from "react";
 
-const Tweet = ({
+const TweetComment = ({
   name,
   user,
   date,
@@ -25,32 +24,26 @@ const Tweet = ({
   verified,
   docId,
   likesArray,
-  userId,
+  commentsArray,
+  commentId,
 }) => {
   const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
-  const history = useHistory();
-  const { isOpen, setIsOpen } = useContext(DeleteModelContext);
-  const [id, setId] = useState(null);
+   const { isOpen, setIsOpen } = useContext(DeleteModelContext);
+   const [idComment,setIdComment] = useState(null)
+  
 
   return (
     <>
-      {id && <RemoveModel isOpen={isOpen} id={id} />}
-      <div
-        className="tweet"
-        onClick={(e) => {
-          if (
-            e.target.classList.contains("la-ellipsis-h") ||
-            e.target.classList.contains("more_btn")
-          ) {
-            setId(docId);
-            setIsOpen(true);
-          } else if (e.target.alt === "likes") {
-          } else {
-            history.push(`/tweet/${user}/${docId}`);
-          }
-        }}
-      >
+      {idComment && (
+        <RemoveComment
+          isOpen={isOpen}
+          idComment={idComment}
+          docId={docId}
+          
+        />
+      )}
+      <div className="tweet">
         <Avatar
           style={{
             width: "3rem",
@@ -70,16 +63,15 @@ const Tweet = ({
             <span className="tweet_date">
               {formatDistance(date, new Date())}
             </span>
-            {activeUser && activeUser.userId === userId && (
-              <div
-                className="more_btn"
-                onClick={() => {
-                  setId(docId);
-                }}
-              >
-                <i className="las la-ellipsis-h"></i>
-              </div>
-            )}
+            <div
+              className="more_btn"
+              onClick={() => {
+                setIdComment(commentId);
+                setIsOpen(true);
+              }}
+            >
+              <i className="las la-ellipsis-h"></i>
+            </div>
           </div>
           <pre className="tweet_text">{text}</pre>
           {image && <img className="tweet_image" src={image} alt={text} />}
@@ -95,15 +87,17 @@ const Tweet = ({
             {activeUser && likesArray.includes(activeUser.userId) ? (
               <div
                 onClick={() => {
-                  let like = false;
-                  database
-                    .collection("tweets")
-                    .doc(docId)
-                    .update({
-                      likes: like
-                        ? FieldValue.arrayUnion(activeUser.userId)
-                        : FieldValue.arrayRemove(activeUser.userId),
+                  const newArrayOfComments = commentsArray
+                    .reverse()
+                    .map((comment) => {
+                      if (comment.id === commentId) {
+                        comment.likes.pop();
+                      }
+                      return comment;
                     });
+                  database.collection("tweets").doc(docId).update({
+                    comments: newArrayOfComments,
+                  });
                 }}
                 className="icon_wrapper"
               >
@@ -117,15 +111,16 @@ const Tweet = ({
             ) : (
               <div
                 onClick={() => {
-                  let like = true;
-                  database
-                    .collection("tweets")
-                    .doc(docId)
-                    .update({
-                      likes: like
-                        ? FieldValue.arrayUnion(activeUser.userId)
-                        : FieldValue.arrayRemove(activeUser.userId),
+                  const newArrayOfComments = commentsArray.reverse()
+                    .map((comment) => {
+                      if (comment.id === commentId) {
+                        comment.likes.push(activeUser.userId);
+                      }
+                      return comment;
                     });
+                  database.collection("tweets").doc(docId).update({
+                    comments: newArrayOfComments,
+                  });
                 }}
                 className="icon_wrapper"
               >
@@ -143,4 +138,4 @@ const Tweet = ({
   );
 };
 
-export default Tweet;
+export default TweetComment;

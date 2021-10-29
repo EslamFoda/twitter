@@ -5,10 +5,9 @@ import { database, FieldValue } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
 import repliesIcon from "../assets/replies.svg";
 import retweetIcon from "../assets/retweet.svg";
-import shareIcon from "../assets/share.svg";
 import verifiedIcon from "../assets/verified.svg";
 import useCurrentUser from "../hooks/useCurrentUser";
-import { useHistory } from "react-router-dom";
+import shareIcon from "../assets/share.svg";
 import "./SelectedTweet.css";
 const SelectedTweet = ({
   name,
@@ -25,7 +24,6 @@ const SelectedTweet = ({
 }) => {
   const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
-  const history = useHistory();
 
   return (
     <div className="selected_tweet">
@@ -39,13 +37,16 @@ const SelectedTweet = ({
           }}
           {...config}
         />
-        <div className="tweet_header">
+        <div className="tweet_header" style={{width:'100%'}}>
           <span className="tweet_name">{name}</span>
           {verified && (
             <img className="verified" src={verifiedIcon} alt="verified" />
           )}
           <span className="tweet_username">@{user}</span>•
           <span className="tweet_date">{formatDistance(date, new Date())}</span>
+          <div className="more_btn">
+            <i className="las la-ellipsis-h"></i>
+          </div>
         </div>
       </div>
       <div className="tweet_content">

@@ -39,7 +39,7 @@ const ReplieToTweet = ({ user, docId }) => {
   };
 
   return (
-    <div className="whatshappening">
+    <form onSubmit={(e)=> e.preventDefault()} className="whatshappening">
       <Avatar
         style={{
           width: "3rem",
@@ -99,6 +99,7 @@ const ReplieToTweet = ({ user, docId }) => {
                     filePath,
                     tweet,
                     fullName: activeUser.fullName,
+                    id: Math.floor(Math.random() * 1000000000000000000)
                   };
                   await database
                     .collection("tweets")
@@ -129,7 +130,7 @@ const ReplieToTweet = ({ user, docId }) => {
           )}
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

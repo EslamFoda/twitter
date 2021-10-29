@@ -4,7 +4,7 @@ import SelectedTweet from "./SelectedTweet";
 import { database } from "../library/firebase";
 import { useParams } from "react-router-dom";
 import ReplieToTweet from "./ReplieToTweet";
-import Tweet from "./Tweet";
+import TweetComment from "./TweetComment";
 const Status = () => {
   const params = useParams();
   const [tweet, setTweet] = useState();
@@ -52,20 +52,25 @@ const Status = () => {
       {tweet && <ReplieToTweet user={tweet.username} docId={tweet.id} />}
       {tweet &&
         tweet.comments.reverse().map((comment, index) => {
-         return <Tweet
-            key={index}
-            docId={comment.id}
-            name={comment.fullName}
-            user={comment.username}
-            date={comment.createdAt}
-            text={comment.tweet}
-            verified={true}
-            image={comment.imgUrl}
-            replies={comment.replies.length}
-            retweets={comment.retweets}
-            likes={comment.likes.length}
-            likesArray={comment.likes}
-          />;
+         return (
+           <TweetComment
+             index={index}
+             key={index}
+             docId={params.id}
+             name={comment.fullName}
+             user={comment.username}
+             date={comment.createdAt}
+             text={comment.tweet}
+             verified={true}
+             image={comment.imgUrl}
+             replies={comment.replies.length}
+             retweets={comment.retweets}
+             likes={comment.likes.length}
+             likesArray={comment.likes}
+             commentsArray = {tweet.comments}
+             commentId={comment.id}
+           />
+         );
         })}
     </div>
   );

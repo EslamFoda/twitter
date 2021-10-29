@@ -65,6 +65,7 @@ const MainSection = () => {
             retweets={tweet.retweets}
             likes={tweet.likes.length}
             likesArray={tweet.likes}
+            userId={tweet.userId}
           />
         ))}
     </div>
