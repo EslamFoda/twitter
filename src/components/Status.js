@@ -8,13 +8,14 @@ import TweetComment from "./TweetComment";
 const Status = () => {
   const params = useParams();
   const [tweet, setTweet] = useState();
-
+  const [comments,setComments] = useState(null)
   useEffect(() => {
     const unsub = database
       .collection("tweets")
       .doc(params.id)
       .onSnapshot((snap) => {
         setTweet({ ...snap.data(), id: snap.id });
+       setComments(snap.data().comments.reverse());
       });
     return () => unsub();
   }, [params.id]);
@@ -47,30 +48,33 @@ const Status = () => {
           retweets={tweet.retweets}
           likes={tweet.likes.length}
           likesArray={tweet.likes}
+          filePath={tweet.filePath}
         />
       )}
       {tweet && <ReplieToTweet user={tweet.username} docId={tweet.id} />}
-      {tweet &&
-        tweet.comments.reverse().map((comment, index) => {
-         return (
-           <TweetComment
-             index={index}
-             key={index}
-             docId={params.id}
-             name={comment.fullName}
-             user={comment.username}
-             date={comment.createdAt}
-             text={comment.tweet}
-             verified={true}
-             image={comment.imgUrl}
-             replies={comment.replies.length}
-             retweets={comment.retweets}
-             likes={comment.likes.length}
-             likesArray={comment.likes}
-             commentsArray = {tweet.comments}
-             commentId={comment.id}
-           />
-         );
+      {tweet && comments &&
+        comments.map((comment, index) => {
+          return (
+            <TweetComment
+              index={index}
+              key={index}
+              docId={params.id}
+              name={comment.fullName}
+              user={comment.username}
+              date={comment.createdAt}
+              text={comment.tweet}
+              verified={true}
+              image={comment.imgUrl}
+              replies={comment.replies.length}
+              retweets={comment.retweets}
+              likes={comment.likes.length}
+              likesArray={comment.likes}
+              commentsArray={tweet.comments}
+              comments={comments}
+              commentId={comment.id}
+              filePath={comment.filePath}
+            />
+          );
         })}
     </div>
   );

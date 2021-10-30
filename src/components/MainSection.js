@@ -66,6 +66,7 @@ const MainSection = () => {
             likes={tweet.likes.length}
             likesArray={tweet.likes}
             userId={tweet.userId}
+            filePath={tweet.filePath}
           />
         ))}
     </div>

@@ -26,6 +26,7 @@ const Tweet = ({
   docId,
   likesArray,
   userId,
+  filePath,
 }) => {
   const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
@@ -35,7 +36,7 @@ const Tweet = ({
 
   return (
     <>
-      {id && <RemoveModel isOpen={isOpen} id={id} />}
+      {id && <RemoveModel isOpen={isOpen} id={id} filePath={filePath} />}
       <div
         className="tweet"
         onClick={(e) => {

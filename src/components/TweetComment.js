@@ -1,16 +1,13 @@
 import "./Tweet.css";
 import { formatDistance } from "date-fns";
 import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
-import { database } from "../library/firebase";
+import { database,storage } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
 import repliesIcon from "../assets/replies.svg";
 import retweetIcon from "../assets/retweet.svg";
 import shareIcon from "../assets/share.svg";
 import verifiedIcon from "../assets/verified.svg";
 import useCurrentUser from "../hooks/useCurrentUser";
-import RemoveComment from "./RemoveComment";
-import DeleteModelContext from "../context/DeleteModelContext";
-import { useContext, useState } from "react";
 
 const TweetComment = ({
   name,
@@ -26,23 +23,13 @@ const TweetComment = ({
   likesArray,
   commentsArray,
   commentId,
+  filePath
 }) => {
   const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
-   const { isOpen, setIsOpen } = useContext(DeleteModelContext);
-   const [idComment,setIdComment] = useState(null)
-  
 
   return (
     <>
-      {idComment && (
-        <RemoveComment
-          isOpen={isOpen}
-          idComment={idComment}
-          docId={docId}
-          
-        />
-      )}
       <div className="tweet">
         <Avatar
           style={{
@@ -65,12 +52,21 @@ const TweetComment = ({
             </span>
             <div
               className="more_btn"
-              onClick={() => {
-                setIdComment(commentId);
-                setIsOpen(true);
+              onClick={async () => {
+                const deleteComment = commentsArray.filter((comment) => {
+                  return comment.id !== commentId;
+                });
+                if(filePath){
+                  const storageRef = storage.ref(filePath);
+                  await storageRef.delete();
+                }
+               await database
+                  .collection("tweets")
+                  .doc(docId)
+                  .update({ comments: deleteComment });
               }}
             >
-              <i className="las la-ellipsis-h"></i>
+              <i class="las la-trash-alt"></i>
             </div>
           </div>
           <pre className="tweet_text">{text}</pre>
@@ -87,14 +83,12 @@ const TweetComment = ({
             {activeUser && likesArray.includes(activeUser.userId) ? (
               <div
                 onClick={() => {
-                  const newArrayOfComments = commentsArray
-                    .reverse()
-                    .map((comment) => {
-                      if (comment.id === commentId) {
-                        comment.likes.pop();
-                      }
-                      return comment;
-                    });
+                  const newArrayOfComments = commentsArray.map((comment) => {
+                    if (comment.id === commentId) {
+                      comment.likes.pop();
+                    }
+                    return comment;
+                  });
                   database.collection("tweets").doc(docId).update({
                     comments: newArrayOfComments,
                   });
@@ -111,13 +105,12 @@ const TweetComment = ({
             ) : (
               <div
                 onClick={() => {
-                  const newArrayOfComments = commentsArray.reverse()
-                    .map((comment) => {
-                      if (comment.id === commentId) {
-                        comment.likes.push(activeUser.userId);
-                      }
-                      return comment;
-                    });
+                  const newArrayOfComments = commentsArray.map((comment) => {
+                    if (comment.id === commentId) {
+                      comment.likes.push(activeUser.userId);
+                    }
+                    return comment;
+                  });
                   database.collection("tweets").doc(docId).update({
                     comments: newArrayOfComments,
                   });

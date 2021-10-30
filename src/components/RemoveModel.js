@@ -1,9 +1,11 @@
 import "./RemoveModel.css";
 import { useContext } from "react";
 import DeleteModelContext from "../context/DeleteModelContext";
-import { database } from "../library/firebase";
-const RemoveModel = ({ isOpen,id}) => {
+import { database,storage } from "../library/firebase";
+import { useHistory } from "react-router-dom";
+const RemoveModel = ({ isOpen, id, filePath }) => {
   const { setIsOpen } = useContext(DeleteModelContext);
+  const history = useHistory()
   return (
     <>
       {isOpen && (
@@ -17,8 +19,14 @@ const RemoveModel = ({ isOpen,id}) => {
             </p>
             <button
               className="delete_tweet_btn"
-              onClick={async() => {
-              await database.collection('tweets').doc(id).delete()
+              onClick={async () => {
+                history.push("/home");
+                if (filePath) {
+                  const storageRef = storage.ref(filePath);
+                  await storageRef.delete();
+                }
+                await database.collection("tweets").doc(id).delete();
+                setIsOpen(false)
               }}
             >
               Delete

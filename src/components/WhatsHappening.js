@@ -1,34 +1,38 @@
-import './WhatsHappening.css';
-import { useRef, useState } from 'react';
-import Avatar, { AvatarConfig, genConfig } from 'react-nice-avatar';
+import "./WhatsHappening.css";
+import { useRef, useState } from "react";
+import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
 
-import emojiIcon from '../assets/emoji.svg';
-import gifIcon from '../assets/gif.svg';
-import mediaIcon from '../assets/media.svg';
-import pollIcon from '../assets/poll.svg';
-import scheduleIcon from '../assets/schedule.svg';
-import {database,storage} from '../library/firebase'
-import useCurrentUser from '../hooks/useCurrentUser'
+import emojiIcon from "../assets/emoji.svg";
+import gifIcon from "../assets/gif.svg";
+import mediaIcon from "../assets/media.svg";
+import pollIcon from "../assets/poll.svg";
+import scheduleIcon from "../assets/schedule.svg";
+import { database, storage } from "../library/firebase";
+import useCurrentUser from "../hooks/useCurrentUser";
 const WhatsHappening = () => {
-  const {activeUser} = useCurrentUser()
+  const { activeUser } = useCurrentUser();
   const config = genConfig(AvatarConfig);
-  const inputFile = useRef('');
-  const [tweet,setTweet] = useState('')
+  const inputFile = useRef("");
+  const [tweet, setTweet] = useState("");
   let filePath = null;
   let url = null;
-  const [file,setFile] = useState()
-const type = ["image/jpeg", "image/png"];
+  const [file, setFile] = useState();
+  const [viewImage, setViewImage] = useState("");
+  const type = ["image/jpeg", "image/png"];
   const onButtonClick = () => {
     // `current` points to the mounted file input element
     inputFile.current.click();
-    
   };
   const changeHandler = (e) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      setViewImage(reader.result);
+    });
+    reader.readAsDataURL(e.target.files[0]);
     const selected = e.target.files[0];
     if (selected && type.includes(selected.type)) {
       setFile(selected);
-    } 
-  
+    }
   };
 
   const uploadImage = async () => {
@@ -41,6 +45,12 @@ const type = ["image/jpeg", "image/png"];
       console.log(err.message);
     }
   };
+
+  const handleDeleteImageViewer = ()=>{
+    setFile(null)
+    setViewImage('')
+  }
+
 
   return (
     <div className="whatshappening">
@@ -63,6 +73,25 @@ const type = ["image/jpeg", "image/png"];
           value={tweet}
           onChange={(e) => setTweet(e.target.value)}
         />
+        {viewImage && (
+          <div className="image_viewer_container">
+            <i
+              class="las la-times del_image_viewer_btn"
+              onClick={handleDeleteImageViewer}
+            ></i>
+            <img src={viewImage} alt="" />
+          </div>
+        )}
+        {viewImage && (
+          <div
+            style={{
+              width: "100%",
+              height: "1px",
+              background: "var(--blue-gray-light)",
+              marginTop: "2rem",
+            }}
+          ></div>
+        )}
         <div className="newtweet_options">
           <div className="icons">
             <input
@@ -100,9 +129,12 @@ const type = ["image/jpeg", "image/png"];
                     likes: [],
                     filePath,
                     tweet,
-                    fullName:activeUser.fullName
+                    fullName: activeUser.fullName,
                   });
                 }
+                setTweet("");
+                setFile(null);
+                setViewImage("");
               }}
             >
               Tweet
