@@ -1,0 +1,33 @@
+.addTweet_model_container{
+    max-width: 600px;
+    padding: 0;
+    margin: 2rem auto auto auto;
+   border-radius: 10px;
+   background-color: rgb(21, 32, 43);
+}
+.addtweet_model_overlay{
+    background-color: rgba(91, 112, 131, 0.363);
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50000000;
+}
+.close_addmodel_btn{
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0);
+    padding: .5rem;
+    border-radius: 50%;
+}
+.close_addmodel_btn:hover{
+     background: rgba(255, 255, 255, 0.068);
+}
+.addtweet_model_header{
+    border-bottom: 1px solid var(--blue-gray-light);
+    padding: .5rem;
+}
+.comment_model_username,.comment_model_date{
+    color: rgb(136, 153, 166);
+
+}

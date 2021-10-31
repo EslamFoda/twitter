@@ -10,12 +10,24 @@ import Logout from "./pages/Logout";
 import Tweet from "./pages/Tweet";
 import DeleteModelContext from "./context/DeleteModelContext";
 import { useState } from "react";
+import NotFound from "./components/NotFound";
 
 
 function App() {
   const [isOpen,setIsOpen] = useState(false)
+  const [tweetModel,setTweetModel] = useState(false)
+  const [commentModel,setCommentModel] = useState(false)
   return (
-    <DeleteModelContext.Provider value={{ isOpen, setIsOpen }}>
+    <DeleteModelContext.Provider
+      value={{
+        isOpen,
+        setIsOpen,
+        tweetModel,
+        setTweetModel,
+        commentModel,
+        setCommentModel,
+      }}
+    >
       <div className="App">
         <Router>
           <Switch>
@@ -40,6 +52,9 @@ function App() {
             </Route>
             <Route path="/logout">
               <Logout />
+            </Route>
+            <Route path='*'>
+              <NotFound />
             </Route>
           </Switch>
         </Router>

@@ -10,38 +10,35 @@ import { getFollowingUsersTweets } from "../services/firebase";
 const MainSection = () => {
   const { activeUser } = useCurrentUser();
   const [tweets, setTweets] = useState([]);
-  
 
   useEffect(() => {
-   
     async function getTweets() {
-      
       if (activeUser) {
         const userTweets = await getLoggedInUserTweets(activeUser.userId);
-        const followingTweets = await getFollowingUsersTweets(activeUser.following);
-        const allTweets = [...userTweets,...followingTweets]
+        const followingTweets = await getFollowingUsersTweets(
+          activeUser.following
+        );
+        const allTweets = [...userTweets, ...followingTweets];
         setTweets(allTweets);
       }
     }
-    
+
     const unsub = database.collection("tweets").onSnapshot((snapshot) => {
-       snapshot.docChanges().forEach((change) => {
-         if (change.type === "added") {
-           getTweets();
-         }
-         if (change.type === "removed") {
-           getTweets();
-         }
-         if(change.type === 'modified'){
-           getTweets();
-         }
-       });
-     });
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          getTweets();
+        }
+        if (change.type === "removed") {
+          getTweets();
+        }
+        if (change.type === "modified") {
+          getTweets();
+        }
+      });
+    });
 
-     return () => unsub()
+    return () => unsub();
   }, [activeUser]);
-
-  
 
   return (
     <div className="mainsection">
@@ -50,7 +47,7 @@ const MainSection = () => {
         <img src={topTweetsIcon} alt="Top Tweets" className="toptweets" />
       </div>
       <WhatsHappening />
-      {tweets && 
+      {tweets &&
         tweets.map((tweet) => (
           <Tweet
             key={tweet.id}
@@ -67,6 +64,7 @@ const MainSection = () => {
             likesArray={tweet.likes}
             userId={tweet.userId}
             filePath={tweet.filePath}
+            tweet={tweet}
           />
         ))}
     </div>

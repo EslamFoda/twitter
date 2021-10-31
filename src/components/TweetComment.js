@@ -28,6 +28,44 @@ const TweetComment = ({
   const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
 
+  const handleDeleteComment = async()=>{
+    const deleteComment = commentsArray.filter((comment) => {
+      return comment.id !== commentId;
+    });
+    if (filePath) {
+      const storageRef = storage.ref(filePath);
+      await storageRef.delete();
+    }
+    await database
+      .collection("tweets")
+      .doc(docId)
+      .update({ comments: deleteComment });
+  }
+
+  const addLike = ()=>{
+const newArrayOfComments = commentsArray.map((comment) => {
+  if (comment.id === commentId) {
+    comment.likes.push(activeUser.userId);
+  }
+  return comment;
+});
+database.collection("tweets").doc(docId).update({
+  comments: newArrayOfComments,
+});
+  }
+
+  const removeLike = ()=>{
+    const newArrayOfComments = commentsArray.map((comment) => {
+      if (comment.id === commentId) {
+        comment.likes.pop();
+      }
+      return comment;
+    });
+    database.collection("tweets").doc(docId).update({
+      comments: newArrayOfComments,
+    });
+  }
+
   return (
     <>
       <div className="tweet">
@@ -50,22 +88,7 @@ const TweetComment = ({
             <span className="tweet_date">
               {formatDistance(date, new Date())}
             </span>
-            <div
-              className="more_btn"
-              onClick={async () => {
-                const deleteComment = commentsArray.filter((comment) => {
-                  return comment.id !== commentId;
-                });
-                if(filePath){
-                  const storageRef = storage.ref(filePath);
-                  await storageRef.delete();
-                }
-               await database
-                  .collection("tweets")
-                  .doc(docId)
-                  .update({ comments: deleteComment });
-              }}
-            >
+            <div className="more_btn" onClick={handleDeleteComment}>
               <i class="las la-trash-alt"></i>
             </div>
           </div>
@@ -81,20 +104,7 @@ const TweetComment = ({
               <span>{retweets}</span>
             </div>
             {activeUser && likesArray.includes(activeUser.userId) ? (
-              <div
-                onClick={() => {
-                  const newArrayOfComments = commentsArray.map((comment) => {
-                    if (comment.id === commentId) {
-                      comment.likes.pop();
-                    }
-                    return comment;
-                  });
-                  database.collection("tweets").doc(docId).update({
-                    comments: newArrayOfComments,
-                  });
-                }}
-                className="icon_wrapper"
-              >
+              <div onClick={removeLike} className="icon_wrapper">
                 <img
                   className="footer_icon active-like"
                   src={likeIcon}
@@ -103,20 +113,7 @@ const TweetComment = ({
                 <span style={{ color: "rgb(249, 24, 128)" }}>{likes}</span>
               </div>
             ) : (
-              <div
-                onClick={() => {
-                  const newArrayOfComments = commentsArray.map((comment) => {
-                    if (comment.id === commentId) {
-                      comment.likes.push(activeUser.userId);
-                    }
-                    return comment;
-                  });
-                  database.collection("tweets").doc(docId).update({
-                    comments: newArrayOfComments,
-                  });
-                }}
-                className="icon_wrapper"
-              >
+              <div onClick={addLike} className="icon_wrapper">
                 <img className="footer_icon" src={likeIcon} alt="likes" />{" "}
                 <span>{likes}</span>
               </div>

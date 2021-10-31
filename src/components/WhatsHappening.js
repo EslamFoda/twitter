@@ -1,7 +1,6 @@
 import "./WhatsHappening.css";
 import { useRef, useState } from "react";
 import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
-
 import emojiIcon from "../assets/emoji.svg";
 import gifIcon from "../assets/gif.svg";
 import mediaIcon from "../assets/media.svg";
@@ -9,8 +8,10 @@ import pollIcon from "../assets/poll.svg";
 import scheduleIcon from "../assets/schedule.svg";
 import { database, storage } from "../library/firebase";
 import useCurrentUser from "../hooks/useCurrentUser";
-const WhatsHappening = () => {
+import { useHistory } from "react-router-dom";
+const WhatsHappening = ({ setTweetModel }) => {
   const { activeUser } = useCurrentUser();
+  const history = useHistory()
   const config = genConfig(AvatarConfig);
   const inputFile = useRef("");
   const [tweet, setTweet] = useState("");
@@ -46,11 +47,10 @@ const WhatsHappening = () => {
     }
   };
 
-  const handleDeleteImageViewer = ()=>{
-    setFile(null)
-    setViewImage('')
-  }
-
+  const handleDeleteImageViewer = () => {
+    setFile(null);
+    setViewImage("");
+  };
 
   return (
     <div className="whatshappening">
@@ -135,6 +135,7 @@ const WhatsHappening = () => {
                 setTweet("");
                 setFile(null);
                 setViewImage("");
+                history.push('/home')
               }}
             >
               Tweet

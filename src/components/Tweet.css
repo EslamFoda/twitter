@@ -132,6 +132,8 @@
   background-color: #32253a;
 }
 
+
+
 @media screen and (max-width: 800px) {
   .icon_wrapper:last-child {
     margin-right: 0;

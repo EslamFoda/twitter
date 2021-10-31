@@ -5,22 +5,30 @@ import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
 import emojiIcon from "../assets/emoji.svg";
 import gifIcon from "../assets/gif.svg";
 import mediaIcon from "../assets/media.svg";
-import { database, storage ,FieldValue } from "../library/firebase";
+import { database, storage, FieldValue } from "../library/firebase";
 import useCurrentUser from "../hooks/useCurrentUser";
-const ReplieToTweet = ({ user, docId }) => {
+import { useHistory } from "react-router-dom";
+const ReplieToTweet = ({ user, docId, username, id }) => {
   const { activeUser } = useCurrentUser();
+  const history = useHistory()
   const config = genConfig(AvatarConfig);
   const inputFile = useRef("");
   const [tweet, setTweet] = useState("");
   let filePath = null;
   let url = null;
   const [file, setFile] = useState();
+  const [viewImage, setViewImage] = useState("");
   const type = ["image/jpeg", "image/png"];
   const onButtonClick = () => {
     // `current` points to the mounted file input element
     inputFile.current.click();
   };
   const changeHandler = (e) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      setViewImage(reader.result);
+    });
+    reader.readAsDataURL(e.target.files[0]);
     const selected = e.target.files[0];
     if (selected && type.includes(selected.type)) {
       setFile(selected);
@@ -38,8 +46,70 @@ const ReplieToTweet = ({ user, docId }) => {
     }
   };
 
+  const handleDeleteImageViewer = () => {
+    setFile(null);
+    setViewImage("");
+  };
+
+  const addComment = async(documentId)=>{
+     if (tweet.length > 0) {
+       if (file) {
+         await uploadImage();
+       }
+       const newComment = {
+         userId: activeUser.userId,
+         username: activeUser.username,
+         imgUrl: url,
+         createdAt: Date.now(),
+         replies: [],
+         likes: [],
+         filePath,
+         tweet,
+         fullName: activeUser.fullName,
+         id: Math.floor(Math.random() * 1000000000000000000),
+       };
+       await database
+         .collection("tweets")
+         .doc(documentId)
+         .update({
+           comments: FieldValue.arrayUnion(newComment),
+         });
+       setTweet("");
+       setFile(null);
+       setViewImage("");
+     }
+  }
+
+  const addCommentFromModel = async(modelId)=>{
+    if (tweet.length > 0) {
+      if (file) {
+        await uploadImage();
+      }
+      const newComment = {
+        userId: activeUser.userId,
+        username: activeUser.username,
+        imgUrl: url,
+        createdAt: Date.now(),
+        replies: [],
+        likes: [],
+        filePath,
+        tweet,
+        fullName: activeUser.fullName,
+        id: Math.floor(Math.random() * 1000000000000000000),
+      };
+      await database
+        .collection("tweets")
+        .doc(modelId)
+        .update({
+          comments: FieldValue.arrayUnion(newComment),
+        });
+      setTweet("");
+      setFile(null);
+      setViewImage("");
+    }
+  }
   return (
-    <form onSubmit={(e)=> e.preventDefault()} className="whatshappening">
+    <form onSubmit={(e) => e.preventDefault()} className="whatshappening">
       <Avatar
         style={{
           width: "3rem",
@@ -52,7 +122,10 @@ const ReplieToTweet = ({ user, docId }) => {
       <div className="newtweet">
         <span style={{ color: "var(--my-gray)" }}>
           Replying to
-          <span style={{ color: "rgb(29, 155, 240)" }}> @{user}</span>
+          {user && <span style={{ color: "rgb(29, 155, 240)" }}> @{user}</span>}
+          {username && (
+            <span style={{ color: "rgb(29, 155, 240)" }}> @{username}</span>
+          )}
         </span>
         <input
           type="text"
@@ -63,6 +136,25 @@ const ReplieToTweet = ({ user, docId }) => {
           value={tweet}
           onChange={(e) => setTweet(e.target.value)}
         />
+        {viewImage && (
+          <div className="image_viewer_container">
+            <i
+              class="las la-times del_image_viewer_btn"
+              onClick={handleDeleteImageViewer}
+            ></i>
+            <img src={viewImage} alt="" />
+          </div>
+        )}
+        {viewImage && (
+          <div
+            style={{
+              width: "100%",
+              height: "1px",
+              background: "var(--blue-gray-light)",
+              marginTop: "2rem",
+            }}
+          ></div>
+        )}
         <div className="newtweet_options">
           <div className="icons">
             <input
@@ -84,32 +176,12 @@ const ReplieToTweet = ({ user, docId }) => {
           {tweet.length > 0 ? (
             <button
               className="newtweet_button"
-              onClick={async () => {
-                if (tweet.length > 0) {
-                  if (file) {
-                    await uploadImage();
-                  }
-                  const newComment = {
-                    userId: activeUser.userId,
-                    username: activeUser.username,
-                    imgUrl: url,
-                    createdAt: Date.now(),
-                    replies: [],
-                    likes: [],
-                    filePath,
-                    tweet,
-                    fullName: activeUser.fullName,
-                    id: Math.floor(Math.random() * 1000000000000000000)
-                  };
-                  await database
-                    .collection("tweets")
-                    .doc(docId)
-                    .update({
-                      comments: FieldValue.arrayUnion(
-                        newComment
-                      ),
-                    });
-                    setTweet('')
+              onClick={() => {
+                if(docId){
+                  addComment(docId)
+                }else {
+                  addCommentFromModel(id)
+                  history.push(`/tweet/${username}/${id}`);
                 }
               }}
             >
