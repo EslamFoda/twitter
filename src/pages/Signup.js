@@ -35,8 +35,9 @@ const Signup = () => {
               bio: "",
               followers: [],
               following: [],
-              tweets: [],
               userId: createAccount.user.uid,
+              createdAt: Date.now(),
+              backgroundImage:''
             };
             database.collection("users").add({...newUser});
             history.push('/home')

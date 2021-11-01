@@ -1,6 +1,7 @@
 import "./Tweet.css";
 import { formatDistance } from "date-fns";
 import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
+import { Link } from "react-router-dom";
 import { database, FieldValue } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
 import repliesIcon from "../assets/replies.svg";
@@ -47,7 +48,7 @@ const Tweet = ({
                 <i
                   class="las la-times close_addmodel_btn"
                   onClick={() => {
-                    setTweetModel(null)
+                    setTweetModel(null);
                     setCommentModel(false);
                   }}
                 ></i>
@@ -85,7 +86,10 @@ const Tweet = ({
                   </div>
                 </div>
               </div>
-              <ReplieToTweet username={tweetModel.username} id={tweetModel.id} />
+              <ReplieToTweet
+                username={tweetModel.username}
+                id={tweetModel.id}
+              />
             </div>
           </div>
         </div>
@@ -94,6 +98,7 @@ const Tweet = ({
       <div
         className="tweet"
         onClick={(e) => {
+          console.log(e.target);
           if (
             e.target.classList.contains("la-ellipsis-h") ||
             e.target.classList.contains("more_btn")
@@ -111,6 +116,7 @@ const Tweet = ({
               });
             setCommentModel(true);
           } else if (e.target.alt === "likes") {
+          } else if (e.target.classList.contains("tweet_name")) {
           } else {
             history.push(`/tweet/${user}/${docId}`);
           }
@@ -127,7 +133,9 @@ const Tweet = ({
         />
         <div className="tweet_content">
           <div className="tweet_header">
-            <span className="tweet_name">{name}</span>
+            <Link to={`/profile/${user}`} className="tweet_name">
+              {name}
+            </Link>
             {verified && (
               <img className="verified" src={verifiedIcon} alt="verified" />
             )}

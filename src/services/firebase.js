@@ -74,4 +74,16 @@ export async function getFollowingUsersTweets(following){
 }
 
 
+/******get tweets with comments */
+export async function getTweetsWithComments(){
+  let tweets = null;
+  const result = await database
+    .collection("tweets")
+    .orderBy("createdAt", "desc")
+    .get();
+
+  return (tweets = result.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+}
+
+
 

@@ -1,7 +1,7 @@
 import "./WhatsHappening.css";
-import { useRef, useState } from "react";
+import { useRef, useState,useContext } from "react";
 import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
-
+import DeleteModelContext from "../context/DeleteModelContext";
 import emojiIcon from "../assets/emoji.svg";
 import gifIcon from "../assets/gif.svg";
 import mediaIcon from "../assets/media.svg";
@@ -10,7 +10,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import { useHistory } from "react-router-dom";
 const ReplieToTweet = ({ user, docId, username, id }) => {
   const { activeUser } = useCurrentUser();
-  const history = useHistory()
+  const history = useHistory();
   const config = genConfig(AvatarConfig);
   const inputFile = useRef("");
   const [tweet, setTweet] = useState("");
@@ -18,6 +18,8 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
   let url = null;
   const [file, setFile] = useState();
   const [viewImage, setViewImage] = useState("");
+  const {setCommentModel } =
+    useContext(DeleteModelContext);
   const type = ["image/jpeg", "image/png"];
   const onButtonClick = () => {
     // `current` points to the mounted file input element
@@ -51,36 +53,36 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
     setViewImage("");
   };
 
-  const addComment = async(documentId)=>{
-     if (tweet.length > 0) {
-       if (file) {
-         await uploadImage();
-       }
-       const newComment = {
-         userId: activeUser.userId,
-         username: activeUser.username,
-         imgUrl: url,
-         createdAt: Date.now(),
-         replies: [],
-         likes: [],
-         filePath,
-         tweet,
-         fullName: activeUser.fullName,
-         id: Math.floor(Math.random() * 1000000000000000000),
-       };
-       await database
-         .collection("tweets")
-         .doc(documentId)
-         .update({
-           comments: FieldValue.arrayUnion(newComment),
-         });
-       setTweet("");
-       setFile(null);
-       setViewImage("");
-     }
-  }
+  const addComment = async (documentId) => {
+    if (tweet.length > 0) {
+      if (file) {
+        await uploadImage();
+      }
+      const newComment = {
+        userId: activeUser.userId,
+        username: activeUser.username,
+        imgUrl: url,
+        createdAt: Date.now(),
+        replies: [],
+        likes: [],
+        filePath,
+        tweet,
+        fullName: activeUser.fullName,
+        id: Math.floor(Math.random() * 1000000000000000000),
+      };
+      await database
+        .collection("tweets")
+        .doc(documentId)
+        .update({
+          comments: FieldValue.arrayUnion(newComment),
+        });
+      setTweet("");
+      setFile(null);
+      setViewImage("");
+    }
+  };
 
-  const addCommentFromModel = async(modelId)=>{
+  const addCommentFromModel = async (modelId) => {
     if (tweet.length > 0) {
       if (file) {
         await uploadImage();
@@ -107,7 +109,7 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
       setFile(null);
       setViewImage("");
     }
-  }
+  };
   return (
     <form onSubmit={(e) => e.preventDefault()} className="whatshappening">
       <Avatar
@@ -177,11 +179,12 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
             <button
               className="newtweet_button"
               onClick={() => {
-                if(docId){
-                  addComment(docId)
-                }else {
-                  addCommentFromModel(id)
+                if (docId) {
+                  addComment(docId);
+                } else {
+                  addCommentFromModel(id);
                   history.push(`/tweet/${username}/${id}`);
+                  setCommentModel(false)  
                 }
               }}
             >

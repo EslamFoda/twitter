@@ -11,7 +11,7 @@ import Tweet from "./pages/Tweet";
 import DeleteModelContext from "./context/DeleteModelContext";
 import { useState } from "react";
 import NotFound from "./components/NotFound";
-
+import Profile from "./pages/Profile";
 
 function App() {
   const [isOpen,setIsOpen] = useState(false)
@@ -53,7 +53,10 @@ function App() {
             <Route path="/logout">
               <Logout />
             </Route>
-            <Route path='*'>
+            <Route path="/profile/:username">
+              <Profile />
+            </Route>
+            <Route path="*">
               <NotFound />
             </Route>
           </Switch>

@@ -1,20 +1,20 @@
 import "./Tweet.css";
 import { formatDistance } from "date-fns";
 import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
+import { Link } from "react-router-dom";
 import { database, FieldValue } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
 import repliesIcon from "../assets/replies.svg";
 import retweetIcon from "../assets/retweet.svg";
+import shareIcon from "../assets/share.svg";
 import verifiedIcon from "../assets/verified.svg";
 import useCurrentUser from "../hooks/useCurrentUser";
-import shareIcon from "../assets/share.svg";
+import { useHistory } from "react-router-dom";
+import { useContext, useState } from "react";
 import RemoveModel from "./RemoveModel";
 import DeleteModelContext from "../context/DeleteModelContext";
-import "./SelectedTweet.css";
 import ReplieToTweet from "./ReplieToTweet";
-import { useContext } from "react";
-import { useState } from "react";
-const SelectedTweet = ({
+const ProfileTweets = ({
   name,
   user,
   date,
@@ -26,13 +26,17 @@ const SelectedTweet = ({
   verified,
   docId,
   likesArray,
-  filePath
+  userId,
+  filePath,
+  tweet,
 }) => {
   const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
-    const { isOpen, setIsOpen, commentModel, setCommentModel } =
-      useContext(DeleteModelContext);
-      const [tweetModel, setTweetModel] = useState()
+  const history = useHistory();
+  const { isOpen, setIsOpen, commentModel, setCommentModel } =
+    useContext(DeleteModelContext);
+  const [id, setId] = useState(null);
+  const [tweetModel, setTweetModel] = useState(null);
 
   return (
     <>
@@ -85,26 +89,53 @@ const SelectedTweet = ({
               <ReplieToTweet
                 username={tweetModel.username}
                 id={tweetModel.id}
-                setCommentModel={setCommentModel}
               />
             </div>
           </div>
         </div>
       )}
-      {docId && <RemoveModel isOpen={isOpen} id={docId} filePath={filePath} />}
-      <div className="selected_tweet">
-        <div style={{ display: "flex" }}>
-          <Avatar
-            style={{
-              width: "3rem",
-              height: "3rem",
-              marginRight: "1em",
-              flexShrink: "0",
-            }}
-            {...config}
-          />
-          <div className="tweet_header" style={{ width: "100%" }}>
-            <span className="tweet_name">{name}</span>
+      {id && <RemoveModel isOpen={isOpen} id={id} filePath={filePath} />}
+      <div
+        className="tweet"
+        onClick={(e) => {
+          console.log(e.target);
+          if (
+            e.target.classList.contains("la-ellipsis-h") ||
+            e.target.classList.contains("more_btn")
+          ) {
+            setId(docId);
+            setIsOpen(true);
+          } else if (e.target.alt === "replies") {
+            database
+              .collection("tweets")
+              .doc(docId)
+              .onSnapshot((snap) => {
+                if (snap.data() && snap.id) {
+                  setTweetModel({ ...snap.data(), id: snap.id });
+                }
+              });
+            setCommentModel(true);
+          } else if (e.target.alt === "likes") {
+          } else if (e.target.classList.contains("tweet_name")) {
+          } else {
+            history.push(`/tweet/${user}/${docId}`);
+          }
+        }}
+      >
+        <Avatar
+          style={{
+            width: "3rem",
+            height: "3rem",
+            marginRight: "1em",
+            flexShrink: "0",
+          }}
+          {...config}
+        />
+        <div className="tweet_content">
+          <div className="tweet_header">
+            <Link to={`/profile/${user}`} className="tweet_name">
+              {name}
+            </Link>
             {verified && (
               <img className="verified" src={verifiedIcon} alt="verified" />
             )}
@@ -112,49 +143,23 @@ const SelectedTweet = ({
             <span className="tweet_date">
               {formatDistance(date, new Date())}
             </span>
-            <div
-              className="more_btn"
-              onClick={() => {
-                setIsOpen(true);
-              }}
-            >
-              <i className="las la-ellipsis-h"></i>
-            </div>
+            {activeUser && activeUser.userId === userId && (
+              <div
+                className="more_btn"
+                onClick={() => {
+                  setId(docId);
+                }}
+              >
+                <i className="las la-ellipsis-h"></i>
+              </div>
+            )}
           </div>
-        </div>
-        <div className="tweet_content">
-          <h3 className="selected_tweet_text">{text}</h3>
+          <pre className="tweet_text">{text}</pre>
           {image && <img className="tweet_image" src={image} alt={text} />}
-          <div className="tweet_likes_replies_container">
-            <span className="selected_tweet_replies">
-              <span style={{ color: "white", fontWeight: "bold" }}>
-                {replies}{" "}
-              </span>
-              Replies
-            </span>
-            <span>
-              <span style={{ color: "white", fontWeight: "bold" }}>
-                {likes}{" "}
-              </span>
-              Likes
-            </span>
-          </div>
           <div className="tweet_footer">
-            <div
-              className="icon_wrapper"
-              onClick={() => {
-                database
-                  .collection("tweets")
-                  .doc(docId)
-                  .onSnapshot((snap) => {
-                    if (snap.data() && snap.id) {
-                      setTweetModel({ ...snap.data(), id: snap.id });
-                    }
-                  });
-                setCommentModel(true);
-              }}
-            >
+            <div className="icon_wrapper">
               <img className="footer_icon" src={repliesIcon} alt="replies" />{" "}
+              <span>{replies}</span>
             </div>
             <div className="icon_wrapper">
               <img className="footer_icon" src={retweetIcon} alt="retweets" />{" "}
@@ -180,6 +185,7 @@ const SelectedTweet = ({
                   src={likeIcon}
                   alt="likes"
                 />{" "}
+                <span style={{ color: "rgb(249, 24, 128)" }}>{likes}</span>
               </div>
             ) : (
               <div
@@ -197,6 +203,7 @@ const SelectedTweet = ({
                 className="icon_wrapper"
               >
                 <img className="footer_icon" src={likeIcon} alt="likes" />{" "}
+                <span>{likes}</span>
               </div>
             )}
             <div className="icon_wrapper">
@@ -209,4 +216,4 @@ const SelectedTweet = ({
   );
 };
 
-export default SelectedTweet;
+export default ProfileTweets;

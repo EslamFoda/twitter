@@ -85,15 +85,17 @@ body {
     width: auto;
     display: block;
   }
-  .leftsection {
+
+  
+  .leftmenu_title{
     display: none;
   }
   .rightsection {
     display: none;
   }
   .mainsection {
-    margin: 0 auto;
-    flex-basis: 0%;
+    margin-left: 4rem;
+    
   }
 }
 

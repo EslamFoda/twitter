@@ -1,19 +1,23 @@
-import './LeftMenu.css';
+import "./LeftMenu.css";
 import { useContext } from "react";
 import DeleteModelContext from "../context/DeleteModelContext";
-import LMElement from './LMElement';
-import bookmarksIcon from '../assets/bookmarks.svg';
-import exploreIcon from '../assets/explore.svg';
-import homeIcon from '../assets/home.svg';
-import listsIcon from '../assets/lists.svg';
-import messagesIcon from '../assets/messages.svg';
-import moreIcon from '../assets/more_circle.svg';
-import notificationsIcon from '../assets/notifications.svg';
-import profileIcon from '../assets/profile.svg';
-import twitterIcon from '../assets/twitter.svg';
-import AddTweetModel from './AddTweetModel';
-import User from './User';
+import LMElement from "./LMElement";
+import bookmarksIcon from "../assets/bookmarks.svg";
+import exploreIcon from "../assets/explore.svg";
+import homeIcon from "../assets/home.svg";
+import listsIcon from "../assets/lists.svg";
+import messagesIcon from "../assets/messages.svg";
+import moreIcon from "../assets/more_circle.svg";
+import notificationsIcon from "../assets/notifications.svg";
+import profileIcon from "../assets/profile.svg";
+import twitterIcon from "../assets/twitter.svg";
+import AddTweetModel from "./AddTweetModel";
+import { Link } from "react-router-dom";
+import useCurrentUser from "../hooks/useCurrentUser";
+import User from "./User";
+
 const LeftMenu = () => {
+  const {activeUser} = useCurrentUser()
   const { tweetModel, setTweetModel } = useContext(DeleteModelContext);
   return (
     <>
@@ -27,7 +31,17 @@ const LeftMenu = () => {
           <LMElement icon={messagesIcon} title="Messages" />
           <LMElement icon={bookmarksIcon} title="Bookmarks" />
           <LMElement icon={listsIcon} title="Lists" />
-          <LMElement icon={profileIcon} title="Profile" />
+
+          {activeUser ? (
+            <Link to={`/profile/${activeUser.username}`}>
+              <LMElement icon={profileIcon} title="Profile" />
+            </Link>
+          ) : (
+            <div>
+            <LMElement icon={profileIcon} title="Profile" />
+            </div>
+          )}
+
           <LMElement icon={moreIcon} title="More" />
           <button
             className="tweet_button"
