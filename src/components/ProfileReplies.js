@@ -1,7 +1,7 @@
 import "./Tweet.css";
 import { formatDistance } from "date-fns";
 import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
-import { database,storage } from "../library/firebase";
+import { database, storage } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
 import repliesIcon from "../assets/replies.svg";
 import retweetIcon from "../assets/retweet.svg";
@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import verifiedIcon from "../assets/verified.svg";
 import useCurrentUser from "../hooks/useCurrentUser";
 
-const TweetComment = ({
+const ProfileReplies = ({
   name,
   user,
   date,
@@ -93,12 +93,17 @@ const TweetComment = ({
               {formatDistance(date, new Date())}
             </span>
             <div className="more_btn" onClick={handleDeleteComment}>
-              <i class="las la-trash-alt"></i>
+              <i className="las la-trash-alt"></i>
             </div>
           </div>
           <span>
             Replying to{" "}
-            <Link to={`/profile/${reply}`} style={{ color: "rgb(29, 155, 240)",cursor:"pointer"}}>@{reply}</Link>
+            <Link
+              to={`/profile/${reply}`}
+              style={{ color: "rgb(29, 155, 240)", cursor: "pointer" }}
+            >
+              @{reply}
+            </Link>
           </span>
           <pre className="tweet_text">{text}</pre>
           {image && <img className="tweet_image" src={image} alt={text} />}
@@ -136,4 +141,4 @@ const TweetComment = ({
   );
 };
 
-export default TweetComment;
+export default ProfileReplies;

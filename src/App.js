@@ -12,7 +12,8 @@ import DeleteModelContext from "./context/DeleteModelContext";
 import { useState } from "react";
 import NotFound from "./components/NotFound";
 import Profile from "./pages/Profile";
-
+import FollowersPage from "./pages/FollowersPage";
+import FollowingPage from "./pages/FollowingPage";
 function App() {
   const [isOpen,setIsOpen] = useState(false)
   const [tweetModel,setTweetModel] = useState(false)
@@ -53,8 +54,14 @@ function App() {
             <Route path="/logout">
               <Logout />
             </Route>
-            <Route path="/profile/:username">
+            <Route exact path="/profile/:username">
               <Profile />
+            </Route>
+            <Route path="/profile/:username/followers">
+              <FollowersPage />
+            </Route>
+            <Route path="/profile/:username/following">
+              <FollowingPage/>
             </Route>
             <Route path="*">
               <NotFound />

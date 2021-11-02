@@ -128,6 +128,7 @@ const Tweet = ({
             height: "3rem",
             marginRight: "1em",
             flexShrink: "0",
+            zIndex: "1",
           }}
           {...config}
         />

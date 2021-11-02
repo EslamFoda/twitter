@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import "./UserProfileDetails.css";
 import { database } from "../library/firebase";
 import { useState } from "react";
-import { formatDistance,format } from "date-fns";
-import { getTweetsWithComments } from "../services/firebase";
+import { Link } from "react-router-dom";
+import { formatDistance } from "date-fns";
 const UserProfileDetails = ({ username }) => {
   const [user, setUser] = useState(null);
   useEffect(() => {
@@ -19,23 +19,6 @@ const UserProfileDetails = ({ username }) => {
     return () => unsub();
   }, [username]);
 
-  useEffect(() => {
-    async function getTweets() {
-      let filteredTweets;
-      let replies;
-      const tweetsWithComments = await getTweetsWithComments();
-      filteredTweets = tweetsWithComments.filter((document) => {
-        return document.comments.length > 0;
-      });
-      if (user) {
-        replies = filteredTweets.filter((d) =>
-          d.comments.some((comment) => comment.userId === user.userId)
-        );
-        console.log(replies);
-      }
-    }
-    getTweets();
-  }, [user]);
 
   return (
     <>
@@ -71,7 +54,7 @@ const UserProfileDetails = ({ username }) => {
                 }}
               >
                 <i
-                  class="las la-calendar"
+                  className="las la-calendar"
                   style={{ marginRight: ".3rem", fontSize: "1.3rem" }}
                 ></i>
                 <span>
@@ -79,22 +62,25 @@ const UserProfileDetails = ({ username }) => {
                 </span>
               </div>
               <div className="follower_following_container">
-                <div style={{ marginRight: "1rem" }}>
+                <Link
+                  to={`/profile/${username}/following`}
+                  style={{ marginRight: "1rem" }}
+                >
                   <span>
                     {user.following.length}{" "}
                     <span style={{ color: "rgb(136, 153, 166)" }}>
                       Following
                     </span>
                   </span>
-                </div>
-                <div>
+                </Link>
+                <Link to={`/profile/${username}/followers`}>
                   <span>
                     {user.followers.length}{" "}
                     <span style={{ color: "rgb(136, 153, 166)" }}>
                       Followers
                     </span>
                   </span>
-                </div>
+                </Link>
               </div>
             </div>
           </div>

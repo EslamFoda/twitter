@@ -39,5 +39,26 @@
   display: block;
   
 }
+.colmn-container{
+  position: relative;
+  overflow: hidden;
+}
+.colmn{
+  position: absolute;
+  margin: 1rem 0 0 0;
+  z-index: -1;
+  left: 2.5rem;
+  top: 0;
+  background: rgb(61, 84, 102);
+  width: 2px;
+  height: 85%;
+}
+.no_replies{
+  margin: 2rem;
+  font-size: large;
+}
 
-
+.followers_tab{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}

@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { database } from "../library/firebase";
+import { getTweetsWithComments } from "../services/firebase";
 import "./ProfileTabs.css";
 import Tweet from "./Tweet";
+import ProfileTweets from "./ProfileTweets";
+import ProfileReplies from "./ProfileReplies";
 const ProfileTabs = ({ username }) => {
-    const [tweets,setTweets] = useState(null)
+  const [tweets, setTweets] = useState(null);
+  const [replies, setReplies] = useState(null);
+  const [likedTweets, setLikedTweets] = useState(null);
+  const [tweetsWithMedia,setTweetsWithMedia] = useState(null)
   function openCity(evt, cityName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -33,6 +39,82 @@ const ProfileTabs = ({ username }) => {
 
     return () => unsub();
   }, [username]);
+
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const unsub = database
+      .collection("users")
+      .where("username", "==", username)
+      .onSnapshot((snap) => {
+        snap.docs.forEach((user) => {
+          setUser(user.data());
+        });
+      });
+
+    return () => unsub();
+  }, [username]);
+
+  useEffect(() => {
+    async function getTweets() {
+      let filteredTweets;
+      let replies;
+      const tweetsWithComments = await getTweetsWithComments();
+      filteredTweets = tweetsWithComments.filter((document) => {
+        return document.comments.length > 0;
+      });
+      if (user) {
+        replies = filteredTweets.filter((d) =>
+          d.comments.some((comment) => comment.userId === user.userId)
+        );
+        setReplies(replies);
+      }
+    }
+    const unsub = database.collection("tweets").onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          getTweets();
+        }
+        if (change.type === "removed") {
+          getTweets();
+        }
+        if (change.type === "modified") {
+          getTweets();
+        }
+      });
+    });
+
+    return () => unsub();
+  }, [user]);
+
+  useEffect(() => {
+    const unsub = database.collection("tweets");
+    if (user) {
+      unsub.where("likes", "array-contains", user.userId).onSnapshot((snap) => {
+        let result = [];
+        snap.docs.forEach((doc) => {
+          result.push({ ...doc.data(), id: doc.id });
+        });
+        setLikedTweets(result);
+      });
+    }
+  }, [user]);
+
+  useEffect(()=>{
+    let tweetsWithPhotos;
+    const unsub = database.collection('tweets').where('username','==',username).onSnapshot(snap=>{
+      const result = []
+      snap.docs.forEach(doc=>{
+        result.push({...doc.data(),id:doc.id})
+      })
+      tweetsWithPhotos = result.filter((tweet) => {
+        return tweet.imgUrl;
+      });
+      console.log(tweetsWithPhotos);
+      setTweetsWithMedia(tweetsWithPhotos);
+    })
+
+    return ()=> unsub()
+  },[username])
 
   return (
     <>
@@ -74,7 +156,7 @@ const ProfileTabs = ({ username }) => {
 
       <div id="London" className="tabcontent active-tab">
         {tweets &&
-          tweets.map((tweet) => (
+          tweets.map((tweet, index) => (
             <div style={{ borderBottom: "1px solid var(--blue-gray-light)" }}>
               <Tweet
                 key={tweet.id}
@@ -98,17 +180,129 @@ const ProfileTabs = ({ username }) => {
       </div>
 
       <div id="Paris" className="tabcontent">
-        <h3>Paris</h3>
-        <p>Paris is the capital of France.</p>
+        {replies &&
+          replies.map((tweet, index) => (
+            <div
+              className="colmn-container"
+              style={{ borderBottom: "1px solid var(--blue-gray-light)" }}
+            >
+              <div className="colmn"></div>
+              <ProfileTweets
+                key={tweet.id}
+                docId={tweet.id}
+                name={tweet.fullName}
+                user={tweet.username}
+                date={tweet.createdAt}
+                text={tweet.tweet}
+                verified={true}
+                image={tweet.imgUrl}
+                replies={tweet.comments.length}
+                retweets={tweet.retweets}
+                likes={tweet.likes.length}
+                likesArray={tweet.likes}
+                userId={tweet.userId}
+                filePath={tweet.filePath}
+                tweet={tweet}
+              />
+              {replies &&
+                tweet &&
+                tweet.comments.map((comment, index) => {
+                  return (
+                    <ProfileReplies
+                      index={index}
+                      key={index}
+                      docId={tweet.id}
+                      name={comment.fullName}
+                      user={comment.username}
+                      date={comment.createdAt}
+                      text={comment.tweet}
+                      verified={true}
+                      image={comment.imgUrl}
+                      replies={comment.replies.length}
+                      retweets={comment.retweets}
+                      likes={comment.likes.length}
+                      likesArray={comment.likes}
+                      commentsArray={tweet.comments}
+                      commentId={comment.id}
+                      filePath={comment.filePath}
+                      reply={tweet.username}
+                    />
+                  );
+                })}
+            </div>
+          ))}
+        {replies && replies.length === 0 && (
+          <div className="no_replies">
+            <h2>You don’t have any replies yet</h2>
+          </div>
+        )}
       </div>
 
       <div id="Tokyo" className="tabcontent">
-        <h3>Tokyo</h3>
-        <p>Tokyo is the capital of Japan.</p>
+        {tweetsWithMedia &&
+          tweetsWithMedia.map((tweet, index) => (
+            <div style={{ borderBottom: "1px solid var(--blue-gray-light)" }}>
+              <Tweet
+                key={tweet.id}
+                docId={tweet.id}
+                name={tweet.fullName}
+                user={tweet.username}
+                date={tweet.createdAt}
+                text={tweet.tweet}
+                verified={true}
+                image={tweet.imgUrl}
+                replies={tweet.comments.length}
+                retweets={tweet.retweets}
+                likes={tweet.likes.length}
+                likesArray={tweet.likes}
+                userId={tweet.userId}
+                filePath={tweet.filePath}
+                tweet={tweet}
+              />
+            </div>
+          ))}
+        {tweetsWithMedia && tweetsWithMedia.length === 0 && (
+          <div className="no_replies">
+            <h2>You haven’t Tweeted any photos yet</h2>
+            <p style={{ color: "rgb(136, 153, 166)", fontSize: "smaller" }}>
+              When you send Tweets with photos or videos in them, it will show
+              up here.
+            </p>
+          </div>
+        )}
       </div>
       <div id="Likes" className="tabcontent">
-        <h3>Likes</h3>
-        <p>bla bla bla</p>
+        {likedTweets &&
+          likedTweets.map((tweet, index) => (
+            <div style={{ borderBottom: "1px solid var(--blue-gray-light)" }}>
+              <Tweet
+                key={tweet.id}
+                docId={tweet.id}
+                name={tweet.fullName}
+                user={tweet.username}
+                date={tweet.createdAt}
+                text={tweet.tweet}
+                verified={true}
+                image={tweet.imgUrl}
+                replies={tweet.comments.length}
+                retweets={tweet.retweets}
+                likes={tweet.likes.length}
+                likesArray={tweet.likes}
+                userId={tweet.userId}
+                filePath={tweet.filePath}
+                tweet={tweet}
+              />
+            </div>
+          ))}
+        {likedTweets && likedTweets.length === 0 && (
+          <div className="no_replies">
+            <h2>You don’t have any Likes yet</h2>
+            <p style={{ color: "rgb(136, 153, 166)", fontSize: "smaller" }}>
+              Tap the heart on any Tweet to show it some love. When you do,
+              it’ll show up here.
+            </p>
+          </div>
+        )}
       </div>
     </>
   );

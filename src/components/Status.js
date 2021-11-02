@@ -90,6 +90,7 @@ const Status = () => {
                 comments={comments}
                 commentId={comment.id}
                 filePath={comment.filePath}
+                reply={tweet.username}
               />
             );
           })}

@@ -3,7 +3,7 @@ import Avatar, { AvatarConfig, genConfig } from 'react-nice-avatar';
 import { database,FieldValue } from '../library/firebase';
 import { useState } from 'react';
 import useCurrentUser from '../hooks/useCurrentUser';
-
+import { Link } from 'react-router-dom';
 const FollowCard = ({ fullName, username, id , docId }) => {
   const { activeUser } = useCurrentUser();
   const [isFollowing,setIsFollowing] = useState(false)
@@ -15,7 +15,7 @@ const FollowCard = ({ fullName, username, id , docId }) => {
     {!isFollowing && <div className="follow_card">
       <Avatar style={{ width: "3rem", height: "3rem" }} {...config} />
       <div className="text">
-        <h4>{fullName}</h4>
+        <Link to={`/profile/${username}`}>{fullName}</Link>
         <p>@{username}</p>
       </div>
       <button onClick={()=>{

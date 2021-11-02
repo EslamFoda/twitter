@@ -8,6 +8,7 @@ import retweetIcon from "../assets/retweet.svg";
 import verifiedIcon from "../assets/verified.svg";
 import useCurrentUser from "../hooks/useCurrentUser";
 import shareIcon from "../assets/share.svg";
+import { Link } from "react-router-dom";
 import RemoveModel from "./RemoveModel";
 import DeleteModelContext from "../context/DeleteModelContext";
 import "./SelectedTweet.css";
@@ -104,7 +105,7 @@ const SelectedTweet = ({
             {...config}
           />
           <div className="tweet_header" style={{ width: "100%" }}>
-            <span className="tweet_name">{name}</span>
+            <Link to={`/profile/${user}`} className="tweet_name">{name}</Link>
             {verified && (
               <img className="verified" src={verifiedIcon} alt="verified" />
             )}
