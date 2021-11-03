@@ -65,6 +65,7 @@ const Status = () => {
             filePath={tweet.filePath}
             err={err}
             tweet={tweet}
+            profilePic={tweet.profilePic}
           />
         )}
         {tweet && <ReplieToTweet user={tweet.username} docId={tweet.id} />}
@@ -91,6 +92,7 @@ const Status = () => {
                 commentId={comment.id}
                 filePath={comment.filePath}
                 reply={tweet.username}
+                profilePic={comment.profilePic}
               />
             );
           })}

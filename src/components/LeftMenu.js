@@ -49,9 +49,13 @@ const LeftMenu = () => {
               setTweetModel(true);
             }}
           >
-            Tweet
+           <span className='rm_tweet'>
+             Tweet
+             </span>
           </button>
+          <div>
           <User />
+          </div>
         </div>
         {/* <div className='bottom_section'>
         <Avatar style={{ width: '2.5rem', height: '2.5rem' }} {...config} />

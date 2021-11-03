@@ -26,6 +26,7 @@ const ProfileReplies = ({
   commentId,
   filePath,
   reply,
+  profilePic
 }) => {
   const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
@@ -71,15 +72,9 @@ const ProfileReplies = ({
   return (
     <>
       <div className="tweet">
-        <Avatar
-          style={{
-            width: "3rem",
-            height: "3rem",
-            marginRight: "1em",
-            flexShrink: "0",
-          }}
-          {...config}
-        />
+        <div className="avatar_container">
+          <img src={profilePic} alt="" />
+        </div>
         <div className="tweet_content">
           <div className="tweet_header">
             <Link to={`/profile/${user}`} className="tweet_name">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { database } from "../library/firebase";
-import Following from "./Following";
 import "./ProfileTabs.css";
+import FollowCard from "./FollowCard";
 import { Link } from "react-router-dom";
 import { getFollowingOrFollowers } from "../services/firebase";
 const FollowingTab = ({ user }) => {
@@ -44,12 +44,13 @@ const FollowingTab = ({ user }) => {
       <div id="Paris" className="tabcontent active-tab">
         {following &&
           following.map((profile) => (
-            <Following
+            <FollowCard
               key={profile.userId}
               fullName={profile.fullName}
               username={profile.username}
               id={profile.userId}
               docId={profile.docId}
+              profilePic={profile.profilePic}
             />
           ))}
         {}

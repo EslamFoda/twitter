@@ -14,6 +14,7 @@ import NotFound from "./components/NotFound";
 import Profile from "./pages/Profile";
 import FollowersPage from "./pages/FollowersPage";
 import FollowingPage from "./pages/FollowingPage";
+import ConnectPeople from "./pages/ConnectPeople";
 function App() {
   const [isOpen,setIsOpen] = useState(false)
   const [tweetModel,setTweetModel] = useState(false)
@@ -61,7 +62,10 @@ function App() {
               <FollowersPage />
             </Route>
             <Route path="/profile/:username/following">
-              <FollowingPage/>
+              <FollowingPage />
+            </Route>
+            <Route path="/connect_people">
+              <ConnectPeople />
             </Route>
             <Route path="*">
               <NotFound />

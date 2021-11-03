@@ -27,13 +27,14 @@ const SelectedTweet = ({
   verified,
   docId,
   likesArray,
-  filePath
+  filePath,
+  profilePic,
 }) => {
   const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
-    const { isOpen, setIsOpen, commentModel, setCommentModel } =
-      useContext(DeleteModelContext);
-      const [tweetModel, setTweetModel] = useState()
+  const { isOpen, setIsOpen, commentModel, setCommentModel } =
+    useContext(DeleteModelContext);
+  const [tweetModel, setTweetModel] = useState();
 
   return (
     <>
@@ -51,15 +52,9 @@ const SelectedTweet = ({
                 ></i>
               </div>
               <div style={{ display: "flex", margin: "1rem" }}>
-                <Avatar
-                  style={{
-                    width: "3rem",
-                    height: "3rem",
-                    marginRight: "1em",
-                    flexShrink: "0",
-                  }}
-                  {...config}
-                />
+                <div className="avatar_container">
+                  <img src={profilePic} alt="" />
+                </div>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <span className="tweet_name">{tweetModel.fullName}</span>
@@ -95,17 +90,13 @@ const SelectedTweet = ({
       {docId && <RemoveModel isOpen={isOpen} id={docId} filePath={filePath} />}
       <div className="selected_tweet">
         <div style={{ display: "flex" }}>
-          <Avatar
-            style={{
-              width: "3rem",
-              height: "3rem",
-              marginRight: "1em",
-              flexShrink: "0",
-            }}
-            {...config}
-          />
+          <div className="avatar_container">
+            <img src={profilePic} alt="" />
+          </div>
           <div className="tweet_header" style={{ width: "100%" }}>
-            <Link to={`/profile/${user}`} className="tweet_name">{name}</Link>
+            <Link to={`/profile/${user}`} className="tweet_name">
+              {name}
+            </Link>
             {verified && (
               <img className="verified" src={verifiedIcon} alt="verified" />
             )}

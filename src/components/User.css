@@ -5,10 +5,17 @@
 .active-user-container:hover {
   background-color: #202e3a;
 }
-.active-user-pic,.model-user-pic {
-  height: 2rem;
-  display: block;
+.profile-pic-container,.model-pic-container{
+  height: 2.5rem;
+  width: 2.5rem;
   border-radius: 50%;
+  overflow: hidden;
+}
+.active-user-pic,.model-user-pic {
+  height: 100%;
+  width: 100%;
+  display: block;
+  
 }
 .active-user-container {
   display: flex;

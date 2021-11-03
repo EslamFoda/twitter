@@ -56,7 +56,7 @@ const AddCommentModel = ({
                   </span>
                     </div>
                   <div>
-                <h3>{modelText}</h3>
+                <p>{modelText}</p>
                   </div>
                 </div>
               </div>

@@ -54,8 +54,10 @@ const UserProfile = () => {
             )}
           </div>
         </div>
+        {userTweets && <div>
         <UserProfileDetails username={username} />
         <ProfileTabs username={username} />
+        </div>}
       </div>
     </>
   );

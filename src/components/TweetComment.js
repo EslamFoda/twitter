@@ -1,7 +1,7 @@
 import "./Tweet.css";
 import { formatDistance } from "date-fns";
 import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
-import { database,storage } from "../library/firebase";
+import { database, storage } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
 import repliesIcon from "../assets/replies.svg";
 import retweetIcon from "../assets/retweet.svg";
@@ -25,6 +25,7 @@ const TweetComment = ({
   commentsArray,
   commentId,
   filePath,
+  profilePic,
   reply,
 }) => {
   const config = genConfig(AvatarConfig);
@@ -71,20 +72,20 @@ const TweetComment = ({
   return (
     <>
       <div className="tweet">
-        <Avatar
-          style={{
-            width: "3rem",
-            height: "3rem",
-            marginRight: "1em",
-            flexShrink: "0",
-          }}
-          {...config}
-        />
+        <div className="avatar_container">
+          <img src={profilePic} alt="" />
+        </div>
         <div className="tweet_content">
           <div className="tweet_header">
-            <Link to={`/profile/${user}`} className="tweet_name">
-              {name}
-            </Link>
+            {name.length > 14 ? (
+              <Link to={`/profile/${user}`} className="tweet_name">
+                {name.substr(0, 14) + "..."}
+              </Link>
+            ) : (
+              <Link to={`/profile/${user}`} className="tweet_name">
+                {name}
+              </Link>
+            )}
             {verified && (
               <img className="verified" src={verifiedIcon} alt="verified" />
             )}
@@ -92,13 +93,20 @@ const TweetComment = ({
             <span className="tweet_date">
               {formatDistance(date, new Date())}
             </span>
-            <div className="more_btn" onClick={handleDeleteComment}>
-              <i class="las la-trash-alt"></i>
-            </div>
+            {activeUser && activeUser.username === user && (
+              <div className="more_btn" onClick={handleDeleteComment}>
+                <i className="las la-trash-alt"></i>
+              </div>
+            )}
           </div>
           <span>
             Replying to{" "}
-            <Link to={`/profile/${reply}`} style={{ color: "rgb(29, 155, 240)",cursor:"pointer"}}>@{reply}</Link>
+            <Link
+              to={`/profile/${reply}`}
+              style={{ color: "rgb(29, 155, 240)", cursor: "pointer" }}
+            >
+              @{reply}
+            </Link>
           </span>
           <pre className="tweet_text">{text}</pre>
           {image && <img className="tweet_image" src={image} alt={text} />}

@@ -28,7 +28,8 @@ const Tweet = ({
   likesArray,
   userId,
   filePath,
-  tweet
+  tweet,
+  profilePic
 }) => {
   const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
@@ -54,18 +55,18 @@ const Tweet = ({
                 ></i>
               </div>
               <div style={{ display: "flex", margin: "1rem" }}>
-                <Avatar
-                  style={{
-                    width: "3rem",
-                    height: "3rem",
-                    marginRight: "1em",
-                    flexShrink: "0",
-                  }}
-                  {...config}
-                />
+                <div className="avatar_container">
+                  <img src={profilePic} alt="" />
+                </div>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <span className="tweet_name">{tweetModel.fullName}</span>
+                    {tweetModel.fullName.length > 20 ? (
+                      <span className="tweet_name">
+                        {tweetModel.fullName.substr(0, 20) + "..."}
+                      </span>
+                    ) : (
+                      <span className="tweet_name">{tweetModel.fullName}</span>
+                    )}
                     {verified && (
                       <img
                         className="verified"
@@ -81,8 +82,8 @@ const Tweet = ({
                       {formatDistance(tweetModel.createdAt, new Date())}
                     </span>
                   </div>
-                  <div>
-                    <h3>{tweetModel.tweet}</h3>
+                  <div style={{ marginTop: ".5rem" }}>
+                    <p>{tweetModel.tweet}</p>
                   </div>
                 </div>
               </div>
@@ -102,6 +103,7 @@ const Tweet = ({
             e.target.classList.contains("la-ellipsis-h") ||
             e.target.classList.contains("more_btn")
           ) {
+            console.log(name);
             setId(docId);
             setIsOpen(true);
           } else if (e.target.alt === "replies") {
@@ -121,21 +123,20 @@ const Tweet = ({
           }
         }}
       >
-        <Avatar
-          style={{
-            width: "3rem",
-            height: "3rem",
-            marginRight: "1em",
-            flexShrink: "0",
-            zIndex: "1",
-          }}
-          {...config}
-        />
+        <div className="avatar_container">
+          <img src={profilePic} alt="" />
+        </div>
         <div className="tweet_content">
           <div className="tweet_header">
-            <Link to={`/profile/${user}`} className="tweet_name">
-              {name}
-            </Link>
+            {name.length > 20 ? (
+              <Link to={`/profile/${user}`} className="tweet_name">
+                {name.substr(0, 20) + "..."}
+              </Link>
+            ) : (
+              <Link to={`/profile/${user}`} className="tweet_name">
+                {name}
+              </Link>
+            )}
             {verified && (
               <img className="verified" src={verifiedIcon} alt="verified" />
             )}
@@ -154,7 +155,7 @@ const Tweet = ({
               </div>
             )}
           </div>
-          <pre className="tweet_text">{text}</pre>
+          <p className="tweet_text">{text}</p>
           {image && <img className="tweet_image" src={image} alt={text} />}
           <div className="tweet_footer">
             <div className="icon_wrapper">

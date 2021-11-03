@@ -1,8 +1,14 @@
 .profile_background_img {
   height: 12.5rem;
-  background-color: rgb(61, 84, 102);
+  background: rgb(61, 84, 102);
   width: 100%;
 }
+.profile_background_img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .user_profile_container {
   padding: 1rem;
 }
@@ -32,8 +38,8 @@
   margin-left: auto;
   cursor: pointer;
 }
-.profile_follow_btn:hover{
-    opacity: .9;
+.profile_follow_btn:hover {
+  opacity: 0.9;
 }
 .following_btn {
   background-color: rgba(255, 255, 255, 0);
@@ -64,7 +70,7 @@
   display: inline;
   color: rgb(255, 20, 20);
 }
-.edit_btn{
+.edit_btn {
   background-color: rgba(255, 255, 255, 0);
   border-radius: 2rem;
   color: white;
@@ -73,8 +79,116 @@
   font-weight: 600;
   margin-left: auto;
   cursor: pointer;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
-.edit_btn:hover{
+.edit_btn:hover {
   background-color: rgba(255, 255, 255, 0.082);
+}
+.edit-model-overlay {
+  background-color: rgba(91, 112, 131, 0.363);
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 50000000;
+}
+.edit_container {
+  margin: 2rem auto;
+  width: 600px;
+  background-color: rgb(21, 32, 43);
+  border-radius: 10px;
+  overflow: auto;
+  position: relative;
+}
+.edit_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(21, 32, 43);
+}
+.edit_backgroundimage {
+  height: 12.5rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit_backgroundimage img {
+  width: 100%;
+  height: 100%;
+  
+}
+.edit_backgroundimage:after,.edit_img_container::after{
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.322);
+}
+.edit_body {
+  padding: 0 1rem;
+}
+.camera_btn {
+  margin: auto;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: rgb(228, 222, 222);
+  border-radius: 50%;
+  padding: 0.3rem;
+  transition: all ease-in-out 0.1s;
+}
+.camera_btn:hover {
+  background-color: rgba(255, 255, 255, 0.096);
+}
+.edit_img_container {
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-top: -3rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit_img_container img {
+  height: 100%;
+  width: 100%;
+}
+.edit_img_container i,.edit_backgroundimage i {
+  position: absolute;
+  z-index: 5;
+}
+
+.edit_body input{
+  display: block;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  margin: 1rem 0;
+  padding: 1rem .5rem;
+  border: 1px solid rgb(61, 84, 102);
+  color:rgb(182, 208, 229);
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.edit_body input:focus{
+  outline: none;
+  font-size: 1rem;
+  color: #1d9bf0;
+  border:1px solid #1d9bf0;
+}
+.edit_body input::placeholder{
+font-size: smaller;
 }

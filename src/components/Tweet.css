@@ -9,7 +9,18 @@
   background-color: #1c2732;
 
 }
-
+.avatar_container{
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+.avatar_container img{
+  height: 100%;
+  width: 100%;
+}
 .tweet_header {
   display: flex;
   align-items: center;

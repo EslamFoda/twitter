@@ -158,10 +158,12 @@ const ProfileTabs = ({ username }) => {
 
       <div id="London" className="tabcontent active-tab">
         {tweets &&
-          tweets.map((tweet, index) => (
-            <div style={{ borderBottom: "1px solid var(--blue-gray-light)" }}>
+          tweets.map((tweet) => (
+            <div
+              key={tweet.id}
+              style={{ borderBottom: "1px solid var(--blue-gray-light)" }}
+            >
               <Tweet
-                key={tweet.id}
                 docId={tweet.id}
                 name={tweet.fullName}
                 user={tweet.username}
@@ -176,6 +178,7 @@ const ProfileTabs = ({ username }) => {
                 userId={tweet.userId}
                 filePath={tweet.filePath}
                 tweet={tweet}
+                profilePic={tweet.profilePic}
               />
             </div>
           ))}
@@ -185,12 +188,12 @@ const ProfileTabs = ({ username }) => {
         {replies &&
           replies.map((tweet, index) => (
             <div
+              key={tweet.id}
               className="colmn-container"
               style={{ borderBottom: "1px solid var(--blue-gray-light)" }}
             >
               <div className="colmn"></div>
               <ProfileTweets
-                key={tweet.id}
                 docId={tweet.id}
                 name={tweet.fullName}
                 user={tweet.username}
@@ -205,6 +208,7 @@ const ProfileTabs = ({ username }) => {
                 userId={tweet.userId}
                 filePath={tweet.filePath}
                 tweet={tweet}
+                profilePic={tweet.profilePic}
               />
               {replies &&
                 tweet &&
@@ -228,6 +232,7 @@ const ProfileTabs = ({ username }) => {
                       commentId={comment.id}
                       filePath={comment.filePath}
                       reply={tweet.username}
+                      profilePic={comment.profilePic}
                     />
                   );
                 })}
@@ -243,9 +248,11 @@ const ProfileTabs = ({ username }) => {
       <div id="Tokyo" className="tabcontent">
         {tweetsWithMedia &&
           tweetsWithMedia.map((tweet, index) => (
-            <div style={{ borderBottom: "1px solid var(--blue-gray-light)" }}>
+            <div
+              key={index}
+              style={{ borderBottom: "1px solid var(--blue-gray-light)" }}
+            >
               <Tweet
-                key={tweet.id}
                 docId={tweet.id}
                 name={tweet.fullName}
                 user={tweet.username}
@@ -260,6 +267,7 @@ const ProfileTabs = ({ username }) => {
                 userId={tweet.userId}
                 filePath={tweet.filePath}
                 tweet={tweet}
+                profilePic={tweet.profilePic}
               />
             </div>
           ))}
@@ -276,9 +284,11 @@ const ProfileTabs = ({ username }) => {
       <div id="Likes" className="tabcontent">
         {likedTweets &&
           likedTweets.map((tweet, index) => (
-            <div style={{ borderBottom: "1px solid var(--blue-gray-light)" }}>
+            <div
+              key={index}
+              style={{ borderBottom: "1px solid var(--blue-gray-light)" }}
+            >
               <Tweet
-                key={tweet.id}
                 docId={tweet.id}
                 name={tweet.fullName}
                 user={tweet.username}
@@ -293,6 +303,7 @@ const ProfileTabs = ({ username }) => {
                 userId={tweet.userId}
                 filePath={tweet.filePath}
                 tweet={tweet}
+                profilePic={tweet.profilePic}
               />
             </div>
           ))}

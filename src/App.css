@@ -41,6 +41,7 @@ body {
   justify-content: space-between;
   height: 98vh;
   position: fixed;
+  
 }
 
 .rightsection {
@@ -86,17 +87,22 @@ body {
     display: block;
   }
 
-  
-  .leftmenu_title{
-    display: none;
+  .tweet_button{
+    height: 1rem;
+    width: 100%;
+    border-radius: 50%;
   }
-  .rightsection {
+  .leftmenu_title,.active-user-details,.ellipsis-dots,.rightsection,.rm_tweet{
     display: none;
   }
   .mainsection {
-    margin-left: 4rem;
+    margin-left: 4.5rem;
     
   }
+  .leftsection{
+   border-right: 1px solid var(--blue-gray-light);
+  }
+  
 }
 
 @media screen and (max-width: 500px) {

@@ -69,6 +69,7 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
         tweet,
         fullName: activeUser.fullName,
         id: Math.floor(Math.random() * 1000000000000000000),
+        profilePic: activeUser.profilePic
       };
       await database
         .collection("tweets")
@@ -98,6 +99,7 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
         tweet,
         fullName: activeUser.fullName,
         id: Math.floor(Math.random() * 1000000000000000000),
+        profilePic: activeUser.profilePic
       };
       await database
         .collection("tweets")
@@ -112,15 +114,11 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
   };
   return (
     <form onSubmit={(e) => e.preventDefault()} className="whatshappening">
-      <Avatar
-        style={{
-          width: "3rem",
-          height: "3rem",
-          cursor: "pointer",
-          flexShrink: "0",
-        }}
-        {...config}
-      />
+      {activeUser && (
+        <div className="avatar_container" style={{ marginRight: "0" }}>
+          <img src={activeUser.profilePic} alt="" />
+        </div>
+      )}
       <div className="newtweet">
         <span style={{ color: "var(--my-gray)" }}>
           Replying to
@@ -141,7 +139,7 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
         {viewImage && (
           <div className="image_viewer_container">
             <i
-              class="las la-times del_image_viewer_btn"
+              className="las la-times del_image_viewer_btn"
               onClick={handleDeleteImageViewer}
             ></i>
             <img src={viewImage} alt="" />
@@ -184,7 +182,7 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
                 } else {
                   addCommentFromModel(id);
                   history.push(`/tweet/${username}/${id}`);
-                  setCommentModel(false)  
+                  setCommentModel(false);
                 }
               }}
             >

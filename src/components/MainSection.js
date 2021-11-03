@@ -65,6 +65,7 @@ const MainSection = () => {
             userId={tweet.userId}
             filePath={tweet.filePath}
             tweet={tweet}
+            profilePic={tweet.profilePic}
           />
         ))}
     </div>

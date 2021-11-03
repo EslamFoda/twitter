@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "./UserProfileDetails.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -6,8 +6,66 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import { formatDistance } from "date-fns";
 import { database, FieldValue } from "../library/firebase";
 const UserProfileDetails = ({ username }) => {
+  const [editModel, setEditModel] = useState(false);
   const { activeUser } = useCurrentUser();
+  const backgroundInput = useRef("");
+  const profileImageInput = useRef("");
   const [user, setUser] = useState(null);
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+  const [proifleImage, setProfileImage] = useState("");
+  const [backgroundImage, setBackgroundImage] = useState("");
+  const onButtonClick = () => {
+    // `current` points to the mounted file input element
+    backgroundInput.current.click();
+  };
+  const onSecButtonClick = () => {
+    // `current` points to the mounted file input element
+    profileImageInput.current.click();
+  };
+  const secChangeHandler = (e) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      setProfileImage(reader.result);
+    });
+
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
+  const changeHandler = (e) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      setBackgroundImage(reader.result);
+    });
+
+    reader.readAsDataURL(e.target.files[0]);
+  };
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (user) {
+      database.collection("users").doc(user.docId).update({
+        fullName: name,
+        bio: bio,
+        backgroundImage,
+        profilePic: proifleImage,
+      });
+      const ORDER_ITEMS = database.collection("tweets");
+      ORDER_ITEMS.where("userId", "==", user.userId)
+        .get()
+        .then((snapshots) => {
+          console.log(snapshots.size);
+          if (snapshots.size > 0) {
+            snapshots.forEach((orderItem) => {
+              ORDER_ITEMS.doc(orderItem.id).update({
+                fullName: name,
+                profilePic: proifleImage,
+              });
+            });
+          }
+        });
+      setEditModel(false);
+    }
+  };
   useEffect(() => {
     const unsub = database
       .collection("users")
@@ -22,9 +80,77 @@ const UserProfileDetails = ({ username }) => {
 
   return (
     <>
+      {user && editModel && (
+        <div className="edit-model-overlay">
+          <div className="edit_container">
+            <div className="addtweet_model_header edit_header">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="las la-times close_addmodel_btn"
+                  onClick={() => {
+                    setEditModel(false);
+                  }}
+                ></i>
+                <h3 style={{ marginTop: "-.2rem", marginLeft: "1.5rem" }}>
+                  Edit profile
+                </h3>
+              </div>
+              <button className="profile_follow_btn" onClick={handleSave}>
+                Save
+              </button>
+            </div>
+            <div className="edit_backgroundimage">
+              <img src={user.backgroundImage} alt="" />
+              <input
+                type="file"
+                id="file"
+                style={{ display: "none" }}
+                ref={backgroundInput}
+                onChange={changeHandler}
+              />
+              <i
+                className="las la-camera camera_btn"
+                onClick={onButtonClick}
+              ></i>
+            </div>
+            <div className="edit_body">
+              <div className="edit_img_container">
+                <input
+                  type="file"
+                  id="file"
+                  style={{ display: "none" }}
+                  ref={profileImageInput}
+                  onChange={secChangeHandler}
+                />
+                <img src={user.profilePic} alt="" />
+                <i
+                  className="las la-camera camera_btn"
+                  onClick={onSecButtonClick}
+                ></i>
+              </div>
+              <input
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Bio"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+              />
+              <input type="text" placeholder="Location" />
+              <input type="text" placeholder="Website" />
+            </div>
+          </div>
+        </div>
+      )}
       {user && (
         <div>
-          <div className="profile_background_img"></div>
+          <div className="profile_background_img">
+            <img src={user.backgroundImage} alt="" />
+          </div>
           <div className="user_profile_container">
             <div className="profile_header">
               <div className="profile_pic_container">
@@ -34,9 +160,20 @@ const UserProfileDetails = ({ username }) => {
                 />
               </div>
               <div className="profile_btns_container">
-               {activeUser && activeUser.userId === user.userId && <button className="edit_btn">
-                  Edit Profile
-                </button>}
+                {activeUser && activeUser.userId === user.userId && (
+                  <button
+                    className="edit_btn"
+                    onClick={() => {
+                      setName(user.fullName);
+                      setProfileImage(user.profilePic);
+                      setBackgroundImage(user.backgroundImage);
+                      setBio(user.bio);
+                      setEditModel(true);
+                    }}
+                  >
+                    Edit Profile
+                  </button>
+                )}
                 {activeUser &&
                   user &&
                   activeUser.userId !== user.userId &&
@@ -92,7 +229,7 @@ const UserProfileDetails = ({ username }) => {
                 @{user.username}
               </span>
               <p style={{ margin: ".6rem 0" }} className="bio">
-                iam software engineer bullshit
+                {user.bio}
               </p>
               <div
                 style={{

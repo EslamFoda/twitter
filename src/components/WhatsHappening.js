@@ -9,7 +9,7 @@ import scheduleIcon from "../assets/schedule.svg";
 import { database, storage } from "../library/firebase";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { useHistory } from "react-router-dom";
-const WhatsHappening = ({ setTweetModel }) => {
+const WhatsHappening = () => {
   const { activeUser } = useCurrentUser();
   const history = useHistory()
   const config = genConfig(AvatarConfig);
@@ -54,15 +54,9 @@ const WhatsHappening = ({ setTweetModel }) => {
 
   return (
     <div className="whatshappening">
-      <Avatar
-        style={{
-          width: "3rem",
-          height: "3rem",
-          cursor: "pointer",
-          flexShrink: "0",
-        }}
-        {...config}
-      />
+      {activeUser && <div className="avatar_container">
+        <img src={activeUser.profilePic} alt="" />
+      </div>}
       <div className="newtweet">
         <input
           type="text"
@@ -130,12 +124,13 @@ const WhatsHappening = ({ setTweetModel }) => {
                     filePath,
                     tweet,
                     fullName: activeUser.fullName,
+                    profilePic: activeUser.profilePic,
                   });
                 }
                 setTweet("");
                 setFile(null);
                 setViewImage("");
-                history.push('/home')
+                history.push("/home");
               }}
             >
               Tweet
