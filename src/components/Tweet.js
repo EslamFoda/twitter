@@ -46,7 +46,7 @@ const Tweet = ({
             <div className="addTweet_model_container">
               <div className="addtweet_model_header">
                 <i
-                  class="las la-times close_addmodel_btn"
+                  className="las la-times close_addmodel_btn"
                   onClick={() => {
                     setTweetModel(null);
                     setCommentModel(false);
@@ -98,7 +98,6 @@ const Tweet = ({
       <div
         className="tweet"
         onClick={(e) => {
-          console.log(e.target);
           if (
             e.target.classList.contains("la-ellipsis-h") ||
             e.target.classList.contains("more_btn")

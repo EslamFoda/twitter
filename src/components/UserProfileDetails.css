@@ -1,46 +1,80 @@
-.profile_background_img{
-    height: 12.5rem;
-    background-color: rgb(61, 84, 102);
-    width: 100%;
+.profile_background_img {
+  height: 12.5rem;
+  background-color: rgb(61, 84, 102);
+  width: 100%;
 }
-.user_profile_container{
-    padding: 1rem;
+.user_profile_container {
+  padding: 1rem;
 }
-.profile_pic_container{
-    height: 9rem;
-    width: 9rem;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #15202b;
+.profile_pic_container {
+  height: 9rem;
+  width: 9rem;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #15202b;
 }
-.profile_header{
-    display: flex;
-    justify-content: space-between;
-    align-items:center;
-    margin-top: -6rem;
+.profile_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -6rem;
 }
-.profile_pic_container img{
-    width: 100%;
-    height: 100%;
+.profile_pic_container img {
+  width: 100%;
+  height: 100%;
 }
-.profile_follow_btn{
-background-color: white;
-border-radius: 2rem;
-width: 70px;
-height: 30px;
-font-weight: 600;
-border: none;
-margin-left: auto;
-cursor: pointer;
+.profile_follow_btn {
+  background-color: white;
+  border-radius: 2rem;
+  padding: 0.4rem 0.8rem;
+  font-weight: 600;
+  border: none;
+  margin-left: auto;
+  cursor: pointer;
 }
-.profile_btns_container{
-    margin-top: 5rem;
+.profile_follow_btn:hover{
+    opacity: .9;
 }
-.follower_following_container{
-    display: flex;
-    align-items: center;
+.following_btn {
+  background-color: rgba(255, 255, 255, 0);
+  color: white;
+  border: 1px solid rgb(136, 153, 166);
 }
-.follower_following_container div:hover{
-    text-decoration: underline;
-    cursor: pointer;
+
+.profile_btns_container {
+  margin-top: 5rem;
+}
+.follower_following_container {
+  display: flex;
+  align-items: center;
+}
+.follower_following_container div:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.following_btn .unfollow_text {
+  display: none;
+}
+
+.following_btn:hover .following_text {
+  display: none;
+}
+.following_btn:hover .unfollow_text {
+  display: inline;
+  color: rgb(255, 20, 20);
+}
+.edit_btn{
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 2rem;
+  color: white;
+  border: 1px solid rgb(136, 153, 166);
+  padding: 0.5rem 0.9rem;
+  font-weight: 600;
+  margin-left: auto;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+}
+.edit_btn:hover{
+  background-color: rgba(255, 255, 255, 0.082);
 }

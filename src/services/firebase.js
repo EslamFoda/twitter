@@ -32,50 +32,49 @@ export async function activeUser(id) {
   return { loggedUser, docId };
 }
 
-export async function getSuggestedFollowers(id,following) {
-  const result = await database
-    .collection("users")
-    .limit(5)
-    .get();
+export async function getSuggestedFollowers(id, following) {
+  const result = await database.collection("users").limit(5).get();
   return result.docs
-    .map((user) => ({...user.data(),docId:user.id}))
-    .filter(profile=> profile.userId !== id && !following.includes(profile.userId))
+    .map((user) => ({ ...user.data(), docId: user.id }))
+    .filter(
+      (profile) => profile.userId !== id && !following.includes(profile.userId)
+    );
 }
-
 
 /*****get logged in user tweets */
 
-export async function getLoggedInUserTweets(id){
-  let tweets = null
+export async function getLoggedInUserTweets(id) {
+  let tweets = null;
   const result = await database
     .collection("tweets")
     .orderBy("createdAt", "desc")
     .where("userId", "==", id)
     .get();
 
-   return tweets = result.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    
+  tweets = result.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  return tweets;
 }
 
 /*** get following user tweets */
-export async function getFollowingUsersTweets(following){
+export async function getFollowingUsersTweets(following) {
   let followingTweets;
-  if(following.length > 0){
+  if (following.length > 0) {
     const result = await database
       .collection("tweets")
-      .orderBy("createdAt", "desc").where('userId','in',following).get()
-      return followingTweets = result.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
+      .orderBy("createdAt", "desc")
+      .where("userId", "in", following)
+      .get();
+    return (followingTweets = result.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    })));
   } else {
-    return followingTweets = []
+    return (followingTweets = []);
   }
 }
 
-
 /******get tweets with comments */
-export async function getTweetsWithComments(){
+export async function getTweetsWithComments() {
   let tweets = null;
   const result = await database
     .collection("tweets")
@@ -85,6 +84,19 @@ export async function getTweetsWithComments(){
   return (tweets = result.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 }
 
-/*** get the tweets that the user likes it */
-
-
+/***  get following or followers ***/
+export async function getFollowingOrFollowers(userFollowing) {
+  let people;
+  if (userFollowing.length > 0) {
+    const result = await database
+      .collection("users")
+      .where("userId", "in", userFollowing)
+      .get();
+    return (people = result.docs.map((doc) => ({
+      ...doc.data(),
+      docId: doc.id,
+    })));
+  } else {
+    return (people = []);
+  }
+}

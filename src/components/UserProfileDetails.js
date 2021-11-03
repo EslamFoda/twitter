@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import "./UserProfileDetails.css";
-import { database } from "../library/firebase";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useCurrentUser from "../hooks/useCurrentUser";
 import { formatDistance } from "date-fns";
+import { database, FieldValue } from "../library/firebase";
 const UserProfileDetails = ({ username }) => {
+  const { activeUser } = useCurrentUser();
   const [user, setUser] = useState(null);
   useEffect(() => {
     const unsub = database
@@ -12,13 +14,11 @@ const UserProfileDetails = ({ username }) => {
       .where("username", "==", username)
       .onSnapshot((snap) => {
         snap.docs.forEach((user) => {
-          setUser(user.data());
+          setUser({ ...user.data(), docId: user.id });
         });
       });
-
     return () => unsub();
   }, [username]);
-
 
   return (
     <>
@@ -34,7 +34,56 @@ const UserProfileDetails = ({ username }) => {
                 />
               </div>
               <div className="profile_btns_container">
-                <button className="profile_follow_btn">Follow</button>
+               {activeUser && activeUser.userId === user.userId && <button className="edit_btn">
+                  Edit Profile
+                </button>}
+                {activeUser &&
+                  user &&
+                  activeUser.userId !== user.userId &&
+                  !activeUser.following.includes(user.userId) && (
+                    <button
+                      className="profile_follow_btn"
+                      onClick={() => {
+                        database
+                          .collection("users")
+                          .doc(activeUser.docId)
+                          .update({
+                            following: FieldValue.arrayUnion(user.userId),
+                          });
+                        database
+                          .collection("users")
+                          .doc(user.docId)
+                          .update({
+                            followers: FieldValue.arrayUnion(activeUser.userId),
+                          });
+                      }}
+                    >
+                      Follow
+                    </button>
+                  )}
+                {activeUser && activeUser.following.includes(user.userId) && (
+                  <button
+                    className="profile_follow_btn following_btn"
+                    onClick={() => {
+                      console.log(activeUser);
+                      database
+                        .collection("users")
+                        .doc(activeUser.docId)
+                        .update({
+                          following: FieldValue.arrayRemove(user.userId),
+                        });
+                      database
+                        .collection("users")
+                        .doc(user.docId)
+                        .update({
+                          followers: FieldValue.arrayRemove(activeUser.userId),
+                        });
+                    }}
+                  >
+                    <span className="following_text">Following</span>
+                    <span className="unfollow_text">UnFollow</span>
+                  </button>
+                )}
               </div>
             </div>
             <div className="user_details_container">

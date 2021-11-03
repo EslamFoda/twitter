@@ -10,7 +10,7 @@ const ProfileTabs = ({ username }) => {
   const [tweets, setTweets] = useState(null);
   const [replies, setReplies] = useState(null);
   const [likedTweets, setLikedTweets] = useState(null);
-  const [tweetsWithMedia,setTweetsWithMedia] = useState(null)
+  const [tweetsWithMedia, setTweetsWithMedia] = useState(null);
   function openCity(evt, cityName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -99,22 +99,24 @@ const ProfileTabs = ({ username }) => {
     }
   }, [user]);
 
-  useEffect(()=>{
+  useEffect(() => {
     let tweetsWithPhotos;
-    const unsub = database.collection('tweets').where('username','==',username).onSnapshot(snap=>{
-      const result = []
-      snap.docs.forEach(doc=>{
-        result.push({...doc.data(),id:doc.id})
-      })
-      tweetsWithPhotos = result.filter((tweet) => {
-        return tweet.imgUrl;
+    const unsub = database
+      .collection("tweets")
+      .where("username", "==", username)
+      .onSnapshot((snap) => {
+        const result = [];
+        snap.docs.forEach((doc) => {
+          result.push({ ...doc.data(), id: doc.id });
+        });
+        tweetsWithPhotos = result.filter((tweet) => {
+          return tweet.imgUrl;
+        });
+        setTweetsWithMedia(tweetsWithPhotos);
       });
-      console.log(tweetsWithPhotos);
-      setTweetsWithMedia(tweetsWithPhotos);
-    })
 
-    return ()=> unsub()
-  },[username])
+    return () => unsub();
+  }, [username]);
 
   return (
     <>

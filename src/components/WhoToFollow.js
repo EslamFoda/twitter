@@ -3,6 +3,7 @@ import FollowCard from './FollowCard';
 import { useEffect, useState } from 'react';
 import { getSuggestedFollowers } from '../services/firebase';
 import useCurrentUser from '../hooks/useCurrentUser';
+import { database } from '../library/firebase';
 const WhoToFollow = () => {
   const {activeUser} = useCurrentUser()
   const [profiles,setProfiles] = useState(null)
@@ -15,9 +16,27 @@ const WhoToFollow = () => {
       setProfiles(result);
       
     }
-    if (activeUser) {
-      suggestedFollower();
-    }
+    
+    const unsub = database.collection("tweets").onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          if(activeUser){
+            suggestedFollower();
+          }
+        }
+        if (change.type === "removed") {
+        if (activeUser) {
+          suggestedFollower();
+        }
+        }
+        if (change.type === "modified") {
+         if (activeUser) {
+           suggestedFollower();
+         }
+        }
+      });
+    });
+    return ()=> unsub()
   }, [activeUser]);
   return (
     <div>
