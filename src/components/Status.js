@@ -6,7 +6,7 @@ import { database } from "../library/firebase";
 import { useParams } from "react-router-dom";
 import ReplieToTweet from "./ReplieToTweet";
 import TweetComment from "./TweetComment";
-
+import Spinner from "./Spinner";
 const Status = () => {
   const params = useParams();
   const [tweet, setTweet] = useState();
@@ -68,6 +68,7 @@ const Status = () => {
             profilePic={tweet.profilePic}
           />
         )}
+        {!tweet && <Spinner></Spinner>}
         {tweet && <ReplieToTweet user={tweet.username} docId={tweet.id} />}
         {tweet &&
           comments &&

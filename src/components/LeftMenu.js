@@ -17,7 +17,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import User from "./User";
 
 const LeftMenu = () => {
-  const {activeUser} = useCurrentUser()
+  const { activeUser } = useCurrentUser();
   const { tweetModel, setTweetModel } = useContext(DeleteModelContext);
   return (
     <>
@@ -25,9 +25,15 @@ const LeftMenu = () => {
       <aside className="leftsection">
         <div className="upper_section">
           <img className="twitter_logo" src={twitterIcon} alt="twitter logo" />
-          <LMElement icon={homeIcon} title="Home" active />
-          <LMElement icon={exploreIcon} title="Explore" />
-          <LMElement icon={notificationsIcon} title="Notifications" />
+          <Link to="/home">
+            <LMElement icon={homeIcon} title="Home" active />
+          </Link>
+          <Link to="/connect_people">
+            <LMElement icon={exploreIcon} title="Explore" />
+          </Link>
+          <Link to="/notfications">
+            <LMElement icon={notificationsIcon} title="Notifications" />
+          </Link>
           <LMElement icon={messagesIcon} title="Messages" />
           <LMElement icon={bookmarksIcon} title="Bookmarks" />
           <LMElement icon={listsIcon} title="Lists" />
@@ -38,7 +44,7 @@ const LeftMenu = () => {
             </Link>
           ) : (
             <div>
-            <LMElement icon={profileIcon} title="Profile" />
+              <LMElement icon={profileIcon} title="Profile" />
             </div>
           )}
 
@@ -49,12 +55,10 @@ const LeftMenu = () => {
               setTweetModel(true);
             }}
           >
-           <span className='rm_tweet'>
-             Tweet
-             </span>
+            <span className="rm_tweet">Tweet</span>
           </button>
           <div>
-          <User />
+            <User />
           </div>
         </div>
         {/* <div className='bottom_section'>

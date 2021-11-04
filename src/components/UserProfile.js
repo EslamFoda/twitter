@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { database } from "../library/firebase";
 import UserProfileDetails from "./UserProfileDetails";
 import ProfileTabs from "./ProfileTabs";
+import Spinner from "./Spinner";
 const UserProfile = () => {
   const { username } = useParams();
   const [userTweets, setUserTweets] = useState(null);
@@ -54,10 +55,13 @@ const UserProfile = () => {
             )}
           </div>
         </div>
-        {userTweets && <div>
-        <UserProfileDetails username={username} />
-        <ProfileTabs username={username} />
-        </div>}
+        {userTweets && (
+          <div>
+            <UserProfileDetails username={username} />
+            <ProfileTabs username={username} />
+          </div>
+        )}
+        {!userTweets && <Spinner></Spinner>}
       </div>
     </>
   );

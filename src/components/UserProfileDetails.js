@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { formatDistance } from "date-fns";
 import { database, FieldValue } from "../library/firebase";
+
 const UserProfileDetails = ({ username }) => {
   const [editModel, setEditModel] = useState(false);
   const { activeUser } = useCurrentUser();
   const backgroundInput = useRef("");
   const profileImageInput = useRef("");
   const [user, setUser] = useState(null);
+  const [location, setLocation] = useState("");
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [proifleImage, setProfileImage] = useState("");
@@ -48,6 +50,7 @@ const UserProfileDetails = ({ username }) => {
         bio: bio,
         backgroundImage,
         profilePic: proifleImage,
+        location: location
       });
       const ORDER_ITEMS = database.collection("tweets");
       ORDER_ITEMS.where("userId", "==", user.userId)
@@ -140,8 +143,12 @@ const UserProfileDetails = ({ username }) => {
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
               />
-              <input type="text" placeholder="Location" />
-              <input type="text" placeholder="Website" />
+              <input
+                type="text"
+                placeholder="Location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
             </div>
           </div>
         </div>
@@ -168,6 +175,7 @@ const UserProfileDetails = ({ username }) => {
                       setProfileImage(user.profilePic);
                       setBackgroundImage(user.backgroundImage);
                       setBio(user.bio);
+                      setLocation(user.location);
                       setEditModel(true);
                     }}
                   >
@@ -202,7 +210,6 @@ const UserProfileDetails = ({ username }) => {
                   <button
                     className="profile_follow_btn following_btn"
                     onClick={() => {
-                      console.log(activeUser);
                       database
                         .collection("users")
                         .doc(activeUser.docId)
@@ -224,13 +231,23 @@ const UserProfileDetails = ({ username }) => {
               </div>
             </div>
             <div className="user_details_container">
-              <h2>{user.fullName}</h2>
+              {user.fullName.length > 30 ? (
+                <h2>{user.fullName.substr(0, 30) + "..."}</h2>
+              ) : (
+                <h2>{user.fullName}</h2>
+              )}
               <span style={{ color: "rgb(136, 153, 166)" }}>
                 @{user.username}
               </span>
-              <p style={{ margin: ".6rem 0" }} className="bio">
-                {user.bio}
-              </p>
+              {user.bio.length > 150 ? (
+                <p style={{ margin: ".6rem 0" }} className="bio">
+                  {user.bio.substr(0, 150) + "..."}
+                </p>
+              ) : (
+                <p style={{ margin: ".6rem 0" }} className="bio">
+                  {user.bio}
+                </p>
+              )}
               <div
                 style={{
                   color: "rgb(136, 153, 166)",
@@ -239,6 +256,15 @@ const UserProfileDetails = ({ username }) => {
                   margin: ".6rem 0",
                 }}
               >
+                {user && user.location && (
+                  <div>
+                    <i
+                      className="las la-map-marker"
+                      style={{ marginRight: ".3rem", fontSize: "1.2rem" }}
+                    ></i>
+                    <span style={{ marginRight: "1rem" }}>{user.location}</span>
+                  </div>
+                )}
                 <i
                   className="las la-calendar"
                   style={{ marginRight: ".3rem", fontSize: "1.3rem" }}

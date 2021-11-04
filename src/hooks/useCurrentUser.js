@@ -13,7 +13,7 @@ const useCurrentUser = () => {
           setActiveUser({ ...doc.data(), docId: doc.id });
         });
       });
-
+      
     return () => unsub();
   }, [user]);
   

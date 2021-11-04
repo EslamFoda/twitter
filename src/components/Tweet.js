@@ -1,6 +1,5 @@
 import "./Tweet.css";
 import { formatDistance } from "date-fns";
-import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
 import { Link } from "react-router-dom";
 import { database, FieldValue } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
@@ -29,16 +28,15 @@ const Tweet = ({
   userId,
   filePath,
   tweet,
-  profilePic
+  profilePic,
 }) => {
-  const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
   const history = useHistory();
   const { isOpen, setIsOpen, commentModel, setCommentModel } =
     useContext(DeleteModelContext);
   const [id, setId] = useState(null);
-  const [tweetModel,setTweetModel] = useState(null)
-  
+  const [tweetModel, setTweetModel] = useState(null);
+
   return (
     <>
       {commentModel && tweetModel && (
@@ -103,7 +101,6 @@ const Tweet = ({
             e.target.classList.contains("la-ellipsis-h") ||
             e.target.classList.contains("more_btn")
           ) {
-            console.log(name);
             setId(docId);
             setIsOpen(true);
           } else if (e.target.alt === "replies") {

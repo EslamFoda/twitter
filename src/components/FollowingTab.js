@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { database } from "../library/firebase";
 import "./ProfileTabs.css";
 import FollowCard from "./FollowCard";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { getFollowingOrFollowers } from "../services/firebase";
+import Spinner from "./Spinner";
 const FollowingTab = ({ user }) => {
   const [following, setFollowing] = useState(null);
+  const history = useHistory();
   useEffect(() => {
     async function getUserFollowing() {
       const followers = await getFollowingOrFollowers(user.following);
@@ -31,8 +33,10 @@ const FollowingTab = ({ user }) => {
   return (
     <>
       <div className="tab followers_tab">
-        <button>
-          <Link to={`/profile/${user.username}/followers`}>Followers</Link>
+        <button
+          onClick={() => history.push(`/profile/${user.username}/followers`)}
+        >
+          Followers
         </button>
         <button className="tablinks active" id="defaultOpen">
           Following
@@ -53,7 +57,7 @@ const FollowingTab = ({ user }) => {
               profilePic={profile.profilePic}
             />
           ))}
-        {}
+        {!following && <Spinner></Spinner>}
       </div>
     </>
   );

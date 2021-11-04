@@ -1,6 +1,6 @@
 import "./Tweet.css";
 import { formatDistance } from "date-fns";
-import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
+
 import { database, FieldValue } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
 import repliesIcon from "../assets/replies.svg";
@@ -30,7 +30,6 @@ const SelectedTweet = ({
   filePath,
   profilePic,
 }) => {
-  const config = genConfig(AvatarConfig);
   const { activeUser } = useCurrentUser();
   const { isOpen, setIsOpen, commentModel, setCommentModel } =
     useContext(DeleteModelContext);
@@ -57,7 +56,13 @@ const SelectedTweet = ({
                 </div>
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <span className="tweet_name">{tweetModel.fullName}</span>
+                    {tweetModel && tweetModel.fullName.length > 20 ? (
+                      <span className="tweet_name">
+                        {tweetModel.fullName.substr(0, 20) + "..."}
+                      </span>
+                    ) : (
+                      <span className="tweet_name">{tweetModel.fullName}</span>
+                    )}
                     {verified && (
                       <img
                         className="verified"
@@ -94,9 +99,15 @@ const SelectedTweet = ({
             <img src={profilePic} alt="" />
           </div>
           <div className="tweet_header" style={{ width: "100%" }}>
-            <Link to={`/profile/${user}`} className="tweet_name">
-              {name}
-            </Link>
+            {name.length > 20 ? (
+              <Link to={`/profile/${user}`} className="tweet_name">
+                {name.substr(0, 20) + "..."}
+              </Link>
+            ) : (
+              <Link to={`/profile/${user}`} className="tweet_name">
+                {name}
+              </Link>
+            )}
             {verified && (
               <img className="verified" src={verifiedIcon} alt="verified" />
             )}

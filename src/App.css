@@ -86,10 +86,9 @@ body {
     width: auto;
     display: block;
   }
-
   .tweet_button{
     height: 1rem;
-    width: 100%;
+    width: 90% !important;
     border-radius: 50%;
   }
   .leftmenu_title,.active-user-details,.ellipsis-dots,.rightsection,.rm_tweet{
@@ -108,6 +107,9 @@ body {
 @media screen and (max-width: 500px) {
   :root {
     font-size: 12px;
+  }
+  .tab button{
+    font-size: 14px !important;
   }
 }
 

@@ -1,6 +1,5 @@
 import "./Tweet.css";
 import { formatDistance } from "date-fns";
-import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
 import { database, storage } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
 import repliesIcon from "../assets/replies.svg";
@@ -28,7 +27,7 @@ const TweetComment = ({
   profilePic,
   reply,
 }) => {
-  const config = genConfig(AvatarConfig);
+ 
   const { activeUser } = useCurrentUser();
 
   const handleDeleteComment = async () => {

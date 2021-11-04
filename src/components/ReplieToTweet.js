@@ -1,6 +1,6 @@
 import "./WhatsHappening.css";
-import { useRef, useState,useContext } from "react";
-import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
+import { useRef, useState, useContext } from "react";
+
 import DeleteModelContext from "../context/DeleteModelContext";
 import emojiIcon from "../assets/emoji.svg";
 import gifIcon from "../assets/gif.svg";
@@ -11,15 +11,14 @@ import { useHistory } from "react-router-dom";
 const ReplieToTweet = ({ user, docId, username, id }) => {
   const { activeUser } = useCurrentUser();
   const history = useHistory();
-  const config = genConfig(AvatarConfig);
+
   const inputFile = useRef("");
   const [tweet, setTweet] = useState("");
   let filePath = null;
   let url = null;
   const [file, setFile] = useState();
   const [viewImage, setViewImage] = useState("");
-  const {setCommentModel } =
-    useContext(DeleteModelContext);
+  const { setCommentModel } = useContext(DeleteModelContext);
   const type = ["image/jpeg", "image/png"];
   const onButtonClick = () => {
     // `current` points to the mounted file input element
@@ -69,7 +68,7 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
         tweet,
         fullName: activeUser.fullName,
         id: Math.floor(Math.random() * 1000000000000000000),
-        profilePic: activeUser.profilePic
+        profilePic: activeUser.profilePic,
       };
       await database
         .collection("tweets")
@@ -80,6 +79,16 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
       setTweet("");
       setFile(null);
       setViewImage("");
+
+    await database.collection("notifications").add({
+      from: activeUser.username,
+      profilePic: activeUser.profilePic,
+      msg: `${activeUser.username} commented on your tweet`,
+      createdAt: Date.now(),
+      username: user,
+      fullName: activeUser.fullName,
+      tweetId: docId
+    });
     }
   };
 
@@ -99,7 +108,7 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
         tweet,
         fullName: activeUser.fullName,
         id: Math.floor(Math.random() * 1000000000000000000),
-        profilePic: activeUser.profilePic
+        profilePic: activeUser.profilePic,
       };
       await database
         .collection("tweets")

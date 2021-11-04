@@ -19,7 +19,11 @@ const User = () => {
               />
             </div>
             <div className="active-user-details">
-              <h5>{activeUser.fullName}</h5>
+              {activeUser && activeUser.fullName.length > 20 ? (
+                <h5>{activeUser.fullName.substr(0, 20) + "..."}</h5>
+              ) : (
+                <h5>{activeUser.fullName}</h5>
+              )}
               <p>@{activeUser.username}</p>
             </div>
             <div className="ellipsis-dots">

@@ -7,11 +7,14 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import { database } from "../library/firebase";
 import { getLoggedInUserTweets } from "../services/firebase";
 import { getFollowingUsersTweets } from "../services/firebase";
+import Spinner from './Spinner'
 const MainSection = () => {
   const { activeUser } = useCurrentUser();
   const [tweets, setTweets] = useState([]);
+  const [isPending,setIsPending] = useState(false)
 
   useEffect(() => {
+    setIsPending(true)
     async function getTweets() {
       if (activeUser) {
         const userTweets = await getLoggedInUserTweets(activeUser.userId);
@@ -20,6 +23,7 @@ const MainSection = () => {
         );
         const allTweets = [...userTweets, ...followingTweets];
         setTweets(allTweets);
+         setIsPending(false);
       }
     }
 
@@ -47,6 +51,7 @@ const MainSection = () => {
         <img src={topTweetsIcon} alt="Top Tweets" className="toptweets" />
       </div>
       <WhatsHappening />
+
       {tweets &&
         tweets.map((tweet) => (
           <Tweet
@@ -68,6 +73,8 @@ const MainSection = () => {
             profilePic={tweet.profilePic}
           />
         ))}
+        {isPending && <Spinner></Spinner>}
+      {tweets.length === 0 && !isPending && <p style={{textAlign:'center',borderBottom:'none',marginTop:"2rem"}}>there is no tweets yet</p>}
     </div>
   );
 };

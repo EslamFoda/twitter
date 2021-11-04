@@ -1,6 +1,6 @@
 import "./Tweet.css";
 import { formatDistance } from "date-fns";
-import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
+
 import { Link } from "react-router-dom";
 import { database, FieldValue } from "../library/firebase";
 import likeIcon from "../assets/like.svg";
@@ -31,7 +31,7 @@ const ProfileTweets = ({
   tweet,
   profilePic,
 }) => {
-  const config = genConfig(AvatarConfig);
+  
   const { activeUser } = useCurrentUser();
   const history = useHistory();
   const { isOpen, setIsOpen, commentModel, setCommentModel } =

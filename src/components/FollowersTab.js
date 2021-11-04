@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { database } from "../library/firebase";
 import FollowCard from "./FollowCard";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { getFollowingOrFollowers } from "../services/firebase";
 import "./ProfileTabs.css";
+import Spinner from "./Spinner";
 const FollowersTab = ({ user }) => {
+  const hisory = useHistory();
   const [followers, setFollowers] = useState(null);
 
   useEffect(() => {
@@ -35,8 +37,10 @@ const FollowersTab = ({ user }) => {
         <button className="tablinks active" id="defaultOpen">
           Followers
         </button>
-        <button>
-          <Link to={`/profile/${user.username}/following`}>Following</Link>
+        <button
+          onClick={() => hisory.push(`/profile/${user.username}/following`)}
+        >
+          Following
         </button>
       </div>
 
@@ -52,6 +56,7 @@ const FollowersTab = ({ user }) => {
               profilePic={profile.profilePic}
             />
           ))}
+        {!followers && <Spinner></Spinner>}
       </div>
 
       <div id="Paris" className="tabcontent"></div>

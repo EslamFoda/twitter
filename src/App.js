@@ -15,10 +15,14 @@ import Profile from "./pages/Profile";
 import FollowersPage from "./pages/FollowersPage";
 import FollowingPage from "./pages/FollowingPage";
 import ConnectPeople from "./pages/ConnectPeople";
+import { Redirect } from "react-router";
+import Notfications from "./pages/Notfications";
+import useAuth from "./hooks/user-auth";
 function App() {
-  const [isOpen,setIsOpen] = useState(false)
-  const [tweetModel,setTweetModel] = useState(false)
-  const [commentModel,setCommentModel] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [tweetModel, setTweetModel] = useState(false);
+  const [commentModel, setCommentModel] = useState(false);
+  const { user } = useAuth();
   return (
     <DeleteModelContext.Provider
       value={{
@@ -34,38 +38,45 @@ function App() {
         <Router>
           <Switch>
             <Route path="/home">
-              <div className="main-timeline">
-                <LeftMenu />
-                <MainSection />
-                <RightSection />
-              </div>
+              {user ? (
+                <div className="main-timeline">
+                  <LeftMenu />
+                  <MainSection />
+                  <RightSection />
+                </div>
+              ) : (
+                <Redirect to="/"></Redirect>
+              )}
             </Route>
             <Route path="/tweet/:username/:id">
-              <Tweet />
+              {user ? <Tweet /> : <Redirect to="/"></Redirect>}
             </Route>
             <Route exact path="/">
-              <Welcome />
+              {!user ? <Welcome /> : <Redirect to="/"></Redirect>}
             </Route>
             <Route path="/signup">
-              <Signup />
+              {user ? <Redirect to="/home"></Redirect> : <Signup />}
             </Route>
             <Route path="/login">
-              <Login />
+              {user ? <Redirect to="/home"></Redirect> : <Login />}
             </Route>
             <Route path="/logout">
-              <Logout />
+              {user ? <Logout /> : <Redirect to="/"></Redirect>}
             </Route>
             <Route exact path="/profile/:username">
-              <Profile />
+              {user ? <Profile /> : <Redirect to="/"></Redirect>}
             </Route>
             <Route path="/profile/:username/followers">
-              <FollowersPage />
+              {user ? <FollowersPage /> : <Redirect to="/"></Redirect>}
             </Route>
             <Route path="/profile/:username/following">
-              <FollowingPage />
+              {user ? <FollowingPage /> : <Redirect to="/"></Redirect>}
             </Route>
             <Route path="/connect_people">
-              <ConnectPeople />
+              {user ? <ConnectPeople /> : <Redirect to="/"></Redirect>}
+            </Route>
+            <Route path="/notfications">
+              {user ? <Notfications /> : <Redirect to="/"></Redirect>}
             </Route>
             <Route path="*">
               <NotFound />

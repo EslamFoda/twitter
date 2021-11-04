@@ -37,7 +37,8 @@ const Signup = () => {
               following: [],
               userId: createAccount.user.uid,
               createdAt: Date.now(),
-              backgroundImage:''
+              backgroundImage:'',
+              location:''
             };
             database.collection("users").add({...newUser});
             history.push('/home')

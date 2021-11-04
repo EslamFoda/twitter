@@ -1,15 +1,15 @@
 import "./FollowCard.css";
-import Avatar, { AvatarConfig, genConfig } from "react-nice-avatar";
+
 import { Link } from "react-router-dom";
 import { database, FieldValue } from "../library/firebase";
 import useCurrentUser from "../hooks/useCurrentUser";
 const FollowCard = ({ fullName, username, id, docId, profilePic }) => {
-  const config = genConfig(AvatarConfig);
+  
   const { activeUser } = useCurrentUser();
   return (
     <>
       <div className="follow_card">
-        <div className="avatar_container">
+        <div className="avatar_container" style={{marginRight:"0"}}>
           <img src={profilePic} alt="" />
         </div>
         <div className="text">
