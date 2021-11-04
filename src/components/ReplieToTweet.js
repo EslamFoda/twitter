@@ -79,16 +79,17 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
       setTweet("");
       setFile(null);
       setViewImage("");
-
-    await database.collection("notifications").add({
-      from: activeUser.username,
-      profilePic: activeUser.profilePic,
-      msg: `${activeUser.username} commented on your tweet`,
-      createdAt: Date.now(),
-      username: user,
-      fullName: activeUser.fullName,
-      tweetId: docId
-    });
+      await database.collection("notifications").add({
+        from: activeUser.username,
+        profilePic: activeUser.profilePic,
+        msg: `${activeUser.username} commented on your tweet`,
+        createdAt: Date.now(),
+        username: user,
+        fullName: activeUser.fullName,
+        tweetId: docId,
+        comment: tweet,
+        imgUrl: url,
+      });
     }
   };
 
@@ -119,8 +120,21 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
       setTweet("");
       setFile(null);
       setViewImage("");
+      console.log(user);
+      await database.collection("notifications").add({
+        from: activeUser.username,
+        profilePic: activeUser.profilePic,
+        msg: `${activeUser.username} commented on your tweet`,
+        createdAt: Date.now(),
+        username,
+        fullName: activeUser.fullName,
+        tweetId: id,
+        comment: tweet,
+        imgUrl: url,
+      });
     }
   };
+
   return (
     <form onSubmit={(e) => e.preventDefault()} className="whatshappening">
       {activeUser && (

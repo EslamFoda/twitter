@@ -3,8 +3,11 @@
   padding-bottom: 0.4em;
   display: flex;
   color: var(--my-gray);
+  cursor: pointer;
 }
-
+.replay-to:hover{
+  border-bottom: 1px solid rgb(29, 155, 240);
+}
 .tweet:hover {
   background-color: #1c2732;
 

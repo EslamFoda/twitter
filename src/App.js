@@ -52,13 +52,13 @@ function App() {
               {user ? <Tweet /> : <Redirect to="/"></Redirect>}
             </Route>
             <Route exact path="/">
-              {!user ? <Welcome /> : <Redirect to="/"></Redirect>}
+              <Welcome />
             </Route>
             <Route path="/signup">
-              {user ? <Redirect to="/home"></Redirect> : <Signup />}
+              {!user ? <Signup /> : <Redirect to="/home"></Redirect>}
             </Route>
             <Route path="/login">
-              {user ? <Redirect to="/home"></Redirect> : <Login />}
+              {!user ? <Login /> : <Redirect to="/home"></Redirect>}
             </Route>
             <Route path="/logout">
               {user ? <Logout /> : <Redirect to="/"></Redirect>}

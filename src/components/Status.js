@@ -1,5 +1,5 @@
 import "./MainSection.css";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SelectedTweet from "./SelectedTweet";
 import { database } from "../library/firebase";
@@ -10,17 +10,18 @@ import Spinner from "./Spinner";
 const Status = () => {
   const params = useParams();
   const [tweet, setTweet] = useState();
-  const [comments,setComments] = useState(null)
-  const [err,setErr] = useState('')
+  const history = useHistory();
+  const [comments, setComments] = useState(null);
+  const [err, setErr] = useState("");
   useEffect(() => {
     const unsub = database
       .collection("tweets")
       .doc(params.id)
       .onSnapshot((snap) => {
-        if(snap.data()){
+        if (snap.data()) {
           setTweet({ ...snap.data(), id: snap.id });
           setComments(snap.data().comments.reverse());
-        }else {
+        } else {
           setErr(
             " Hmm...this page doesn’t exist. Try searching for something else."
           );
@@ -43,9 +44,13 @@ const Status = () => {
             background: "rgb(21, 32, 43)",
           }}
         >
-          <Link to="/home">
-            <i className="las la-arrow-left back-btn"></i>
-          </Link>
+          <i
+            className="las la-arrow-left back-btn"
+            onClick={() => {
+              history.goBack();
+            }}
+          ></i>
+
           <div className="home_topbar">Tweet</div>
         </div>
         {tweet && (

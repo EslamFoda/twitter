@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import FollowCard from "./FollowCard";
 import { database } from "../library/firebase";
 import Spinner from "./Spinner";
 const SeeMoreUsers = () => {
+  const history = useHistory();
   const [allUsers, setAllUsers] = useState(null);
   useEffect(() => {
     const unsub = database.collection("users").onSnapshot((snap) => {
@@ -29,9 +30,11 @@ const SeeMoreUsers = () => {
             background: "rgb(21, 32, 43)",
           }}
         >
-          <Link to="/home">
-            <i className="las la-arrow-left back-btn"></i>
-          </Link>
+          <i
+            className="las la-arrow-left back-btn"
+            onClick={() => history.goBack()}
+          ></i>
+
           <div
             style={{
               marginLeft: "1rem",
@@ -57,7 +60,7 @@ const SeeMoreUsers = () => {
               />
             </div>
           ))}
-          {!allUsers && <Spinner></Spinner>}
+        {!allUsers && <Spinner></Spinner>}
       </div>
     </>
   );

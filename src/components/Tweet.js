@@ -166,14 +166,11 @@ const Tweet = ({
             {activeUser && likesArray.includes(activeUser.userId) ? (
               <div
                 onClick={() => {
-                  let like = false;
                   database
                     .collection("tweets")
                     .doc(docId)
                     .update({
-                      likes: like
-                        ? FieldValue.arrayUnion(activeUser.userId)
-                        : FieldValue.arrayRemove(activeUser.userId),
+                      likes:  FieldValue.arrayRemove(activeUser.userId)
                     });
                 }}
                 className="icon_wrapper"
@@ -188,15 +185,23 @@ const Tweet = ({
             ) : (
               <div
                 onClick={() => {
-                  let like = true;
+                   
                   database
                     .collection("tweets")
                     .doc(docId)
                     .update({
-                      likes: like
-                        ? FieldValue.arrayUnion(activeUser.userId)
-                        : FieldValue.arrayRemove(activeUser.userId),
+                      likes: FieldValue.arrayUnion(activeUser.userId),
                     });
+
+                    database.collection('likes').add({
+                      profilePic:activeUser.profilePic,
+                      fullName:activeUser.fullName,
+                      from:activeUser.username,
+                      tweetId:docId,
+                      createdAt: Date.now(),
+                      tweetDetails:text,
+                      username:user
+                    })
                 }}
                 className="icon_wrapper"
               >

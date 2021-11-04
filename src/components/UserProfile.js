@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { database } from "../library/firebase";
 import UserProfileDetails from "./UserProfileDetails";
 import ProfileTabs from "./ProfileTabs";
 import Spinner from "./Spinner";
 const UserProfile = () => {
+  const history = useHistory();
   const { username } = useParams();
   const [userTweets, setUserTweets] = useState(null);
   useEffect(() => {
@@ -35,9 +36,13 @@ const UserProfile = () => {
             background: "rgb(21, 32, 43)",
           }}
         >
-          <Link to="/home">
-            <i className="las la-arrow-left back-btn"></i>
-          </Link>
+          <i
+            className="las la-arrow-left back-btn"
+            onClick={() => {
+              history.goBack();
+            }}
+          ></i>
+
           <div
             style={{
               marginLeft: "1rem",

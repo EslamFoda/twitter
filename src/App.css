@@ -94,6 +94,12 @@ body {
   .leftmenu_title,.active-user-details,.ellipsis-dots,.rightsection,.rm_tweet{
     display: none;
   }
+  .la-plus{
+    display: block !important;
+  }
+  .tweet_button{
+  margin-bottom: 2rem;
+  }
   .mainsection {
     margin-left: 4.5rem;
     
@@ -101,6 +107,15 @@ body {
   .leftsection{
    border-right: 1px solid var(--blue-gray-light);
   }
+   .addTweet_model_container{
+    height: 100%;
+    margin-top: 0 !important;
+  }
+  .edit_container{
+    height: 100%;
+    margin: 0 !important;
+  }
+  
   
 }
 
@@ -111,6 +126,7 @@ body {
   .tab button{
     font-size: 14px !important;
   }
+ 
 }
 
 @media screen and (max-width: 360px) {

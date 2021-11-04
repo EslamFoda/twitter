@@ -55,6 +55,7 @@ const LeftMenu = () => {
               setTweetModel(true);
             }}
           >
+            <i class="las la-plus"></i>
             <span className="rm_tweet">Tweet</span>
           </button>
           <div>

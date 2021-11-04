@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import useCurrentUser from "../hooks/useCurrentUser";
 import { database } from "../library/firebase";
 import CommentsNotfication from "./CommentsNotfication";
+import LikesNotifications from "./LikesNotifications";
 const NotifyTabs = () => {
   const { activeUser } = useCurrentUser();
-  const [comments,setComments] = useState(null)
+  const [comments, setComments] = useState(null);
+  const [likes,setLikes] = useState(null)
   function openCity(evt, cityName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -28,13 +30,27 @@ const NotifyTabs = () => {
           const result = [];
           snap.docs.forEach((doc) => {
             result.push({ ...doc.data(), docId: doc.id });
-            console.log(doc.data());
           });
           setComments(result);
-          console.log(result);
         });
     }
   }, [activeUser]);
+
+  useEffect(()=>{
+ if (activeUser) {
+   database
+     .collection("likes")
+     .where("username", "==", activeUser.username)
+     .onSnapshot((snap) => {
+       const result = [];
+       snap.docs.forEach((doc) => {
+         result.push({ ...doc.data(), docId: doc.id });
+       });
+      
+       setLikes(result);
+     });
+ }
+  },[activeUser])
   return (
     <>
       <div className="tab followers_tab active">
@@ -64,16 +80,30 @@ const NotifyTabs = () => {
               from={comment.from}
               fullName={comment.fullName}
               notfication={comment.msg}
-              createdAt={comment.createdAt}
+              date={comment.createdAt}
               profilePic={comment.profilePic}
               tweetId={comment.tweetId}
               username={comment.username}
+              image={comment.imgUrl}
+              text={comment.comment}
             />
           ))}
       </div>
       <div id="Paris" className="tabcontent">
-        <h1>paris</h1>
-        <p>Lorem ipsum dolor sit amet.</p>
+        {likes &&
+          likes.map((like) => (
+            <LikesNotifications
+              key={like.docId}
+              from={like.from}
+              fullName={like.fullName}
+              date={like.createdAt}
+              profilePic={like.profilePic}
+              tweetId={like.tweetId}
+              username={like.username}
+              image={like.imgUrl}
+              tweetDetails={like.tweetDetails}
+            />
+          ))}
       </div>
     </>
   );
