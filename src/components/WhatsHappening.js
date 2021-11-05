@@ -13,7 +13,7 @@ import DeleteModelContext from "../context/DeleteModelContext";
 const WhatsHappening = () => {
   const { setTweetModel } = useContext(DeleteModelContext);
   const { activeUser } = useCurrentUser();
-  const history = useHistory()
+  const history = useHistory();
   const inputFile = useRef("");
   const [tweet, setTweet] = useState("");
   let filePath = null;
@@ -26,12 +26,16 @@ const WhatsHappening = () => {
     inputFile.current.click();
   };
   const changeHandler = (e) => {
+      const selected = e.target.files[0];
     const reader = new FileReader();
     reader.addEventListener("load", () => {
-      setViewImage(reader.result);
+     
+      if (selected && type.includes(selected.type)) {
+        setViewImage(reader.result);
+        inputFile.current.value = ''
+      }
     });
     reader.readAsDataURL(e.target.files[0]);
-    const selected = e.target.files[0];
     if (selected && type.includes(selected.type)) {
       setFile(selected);
     }
@@ -55,9 +59,11 @@ const WhatsHappening = () => {
 
   return (
     <div className="whatshappening">
-      {activeUser && <div className="avatar_container">
-        <img src={activeUser.profilePic} alt="" />
-      </div>}
+      {activeUser && (
+        <div className="avatar_container">
+          <img src={activeUser.profilePic} alt="" />
+        </div>
+      )}
       <div className="newtweet">
         <input
           type="text"
@@ -103,9 +109,14 @@ const WhatsHappening = () => {
               onClick={onButtonClick}
             />
             <img src={gifIcon} alt="gif icon" title="GIF" />
-            <img src={pollIcon} alt="poll icon" title="Poll" />
+            <img className="poll" src={pollIcon} alt="poll icon" title="Poll" />
             <img src={emojiIcon} alt="emoji icon" title="Emoji" />
-            <img src={scheduleIcon} alt="schedule icon" title="Schedule" />
+            <img
+              className="schedule"
+              src={scheduleIcon}
+              alt="schedule icon"
+              title="Schedule"
+            />
           </div>
           {tweet.length > 0 ? (
             <button
@@ -131,7 +142,7 @@ const WhatsHappening = () => {
                 setTweet("");
                 setFile(null);
                 setViewImage("");
-                setTweetModel(false)
+                setTweetModel(false);
                 history.push("/home");
               }}
             >

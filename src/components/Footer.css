@@ -1,0 +1,28 @@
+footer{
+    display: none;
+    position: fixed;
+    bottom: 0;
+    justify-content: space-around;
+    width: 100%;
+    background-color: #15202b;
+    z-index: 20;
+    padding: 1rem 0;
+    border-top: 1px solid var(--blue-gray-light);
+}
+footer div img{
+    cursor: pointer;
+}
+.floating_tweet_btn{
+    position: fixed;
+    display: none;
+    bottom: 5rem;
+    right: 2.5rem;
+    background-color: var(--light-blue);
+    padding: .8rem;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 20;
+}
+.floating_tweet_btn:hover{
+    opacity: .9;
+}

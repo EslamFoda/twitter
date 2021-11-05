@@ -18,7 +18,7 @@ const User = () => {
                 alt=""
               />
             </div>
-            <div className="active-user-details">
+            <div className="active-user-details active-user-details-model">
               {activeUser && activeUser.fullName.length > 20 ? (
                 <h5>{activeUser.fullName.substr(0, 20) + "..."}</h5>
               ) : (
@@ -26,7 +26,7 @@ const User = () => {
               )}
               <p>@{activeUser.username}</p>
             </div>
-            <div className="ellipsis-dots">
+            <div className="ellipsis-dots active-user-check">
               <i
                 style={{ color: "var(--light-blue)" }}
                 className="las la-check"

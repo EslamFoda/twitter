@@ -25,9 +25,15 @@ const ReplieToTweet = ({ user, docId, username, id }) => {
     inputFile.current.click();
   };
   const changeHandler = (e) => {
+    
     const reader = new FileReader();
     reader.addEventListener("load", () => {
-      setViewImage(reader.result);
+      const selected = e.target.files[0];
+      
+      if (selected && type.includes(selected.type)) {
+        setViewImage(reader.result);
+        inputFile.current.value = "";
+      }
     });
     reader.readAsDataURL(e.target.files[0]);
     const selected = e.target.files[0];

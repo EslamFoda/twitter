@@ -59,9 +59,17 @@
   color: white;
   font-family: inherit;
 }
-
+.tweet_img_container{
+  width: 100%;
+  height: 18rem;
+  overflow: hidden;
+  display: block;
+  object-fit: cover;
+}
 .tweet_image {
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  height: auto;
   margin-top: 1em;
   border-radius: 1rem;
   border: 1px solid var(--blue-gray);

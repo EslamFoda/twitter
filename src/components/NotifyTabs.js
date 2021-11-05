@@ -88,6 +88,14 @@ const NotifyTabs = () => {
               text={comment.comment}
             />
           ))}
+        {comments && comments.length === 0 && (
+          <div style={{ textAlign: "left", margin: "5rem",lineHeight:'1.7' }}>
+            <h2>Nothing to see here — yet</h2>
+            <p style={{ color: "rgb(136, 153, 166)" }}>
+              When someone mentions you, you’ll find it here.
+            </p>
+          </div>
+        )}
       </div>
       <div id="Paris" className="tabcontent">
         {likes &&

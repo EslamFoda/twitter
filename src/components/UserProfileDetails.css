@@ -192,3 +192,9 @@
 .edit_body input::placeholder{
 font-size: smaller;
 }
+.followers__follwoings{
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+}
+.followers__follwoings:hover{
+  border-bottom: 1px solid white;
+}

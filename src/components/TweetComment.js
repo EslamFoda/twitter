@@ -27,7 +27,6 @@ const TweetComment = ({
   profilePic,
   reply,
 }) => {
- 
   const { activeUser } = useCurrentUser();
 
   const handleDeleteComment = async () => {

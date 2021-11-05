@@ -18,6 +18,7 @@ import ConnectPeople from "./pages/ConnectPeople";
 import { Redirect } from "react-router";
 import Notfications from "./pages/Notfications";
 import useAuth from "./hooks/user-auth";
+import Footer from "./components/Footer";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [tweetModel, setTweetModel] = useState(false);
@@ -43,6 +44,7 @@ function App() {
                   <LeftMenu />
                   <MainSection />
                   <RightSection />
+                  <Footer />
                 </div>
               ) : (
                 <Redirect to="/"></Redirect>

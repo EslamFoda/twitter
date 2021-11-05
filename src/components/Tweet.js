@@ -153,7 +153,12 @@ const Tweet = ({
             )}
           </div>
           <p className="tweet_text">{text}</p>
-          {image && <img className="tweet_image" src={image} alt={text} />}
+          {image && (
+            <div className='tweet_img_container'>
+              <img className="tweet_image" src={image} alt={text} />
+            </div>
+          )}
+
           <div className="tweet_footer">
             <div className="icon_wrapper">
               <img className="footer_icon" src={repliesIcon} alt="replies" />{" "}
@@ -170,7 +175,7 @@ const Tweet = ({
                     .collection("tweets")
                     .doc(docId)
                     .update({
-                      likes:  FieldValue.arrayRemove(activeUser.userId)
+                      likes: FieldValue.arrayRemove(activeUser.userId),
                     });
                 }}
                 className="icon_wrapper"
@@ -185,7 +190,6 @@ const Tweet = ({
             ) : (
               <div
                 onClick={() => {
-                   
                   database
                     .collection("tweets")
                     .doc(docId)
@@ -193,15 +197,15 @@ const Tweet = ({
                       likes: FieldValue.arrayUnion(activeUser.userId),
                     });
 
-                    database.collection('likes').add({
-                      profilePic:activeUser.profilePic,
-                      fullName:activeUser.fullName,
-                      from:activeUser.username,
-                      tweetId:docId,
-                      createdAt: Date.now(),
-                      tweetDetails:text,
-                      username:user
-                    })
+                  database.collection("likes").add({
+                    profilePic: activeUser.profilePic,
+                    fullName: activeUser.fullName,
+                    from: activeUser.username,
+                    tweetId: docId,
+                    createdAt: Date.now(),
+                    tweetDetails: text,
+                    username: user,
+                  });
                 }}
                 className="icon_wrapper"
               >

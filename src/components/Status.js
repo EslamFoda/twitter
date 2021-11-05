@@ -14,6 +14,7 @@ const Status = () => {
   const [comments, setComments] = useState(null);
   const [err, setErr] = useState("");
   useEffect(() => {
+    setErr('')
     const unsub = database
       .collection("tweets")
       .doc(params.id)
@@ -22,11 +23,10 @@ const Status = () => {
           setTweet({ ...snap.data(), id: snap.id });
           setComments(snap.data().comments.reverse());
         } else {
-          setErr(
-            " Hmm...this page doesn’t exist. Try searching for something else."
-          );
+          setErr(" this tweet has been removed.");
         }
       });
+      
     return () => unsub();
   }, [params.id]);
 
@@ -73,7 +73,8 @@ const Status = () => {
             profilePic={tweet.profilePic}
           />
         )}
-        {!tweet && <Spinner></Spinner>}
+        {!tweet && !err && <Spinner></Spinner>}
+        {err && <p style={{margin:'3rem',textAlign:'center',borderBottom:'none'}}>{err}</p>}
         {tweet && <ReplieToTweet user={tweet.username} docId={tweet.id} />}
         {tweet &&
           comments &&

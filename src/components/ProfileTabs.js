@@ -184,14 +184,14 @@ const ProfileTabs = ({ username }) => {
           ))}
         {tweets && tweets.length === 0 && (
           <div className="no_replies">
-            <h2>There is no tweets yet</h2>
+            <h3>There is no tweets yet</h3>
           </div>
         )}
       </div>
 
       <div id="Paris" className="tabcontent">
         {replies &&
-          replies.map((tweet, index) => (
+          replies.map((tweet) => (
             <div
               key={tweet.id}
               className="colmn-container"
@@ -245,7 +245,7 @@ const ProfileTabs = ({ username }) => {
           ))}
         {replies && replies.length === 0 && (
           <div className="no_replies">
-            <h2>There is no replies yet</h2>
+            <h3>There is no replies yet</h3>
           </div>
         )}
       </div>
@@ -278,7 +278,7 @@ const ProfileTabs = ({ username }) => {
           ))}
         {tweetsWithMedia && tweetsWithMedia.length === 0 && (
           <div className="no_replies">
-            <h2>This user didnt Tweeted any photos yet</h2>
+            <h3>This user didnt Tweeted any photos yet</h3>
             <p style={{ color: "rgb(136, 153, 166)", fontSize: "smaller" }}>
               When you send Tweets with photos or videos in them, it will show
               up here.
@@ -314,7 +314,7 @@ const ProfileTabs = ({ username }) => {
           ))}
         {likedTweets && likedTweets.length === 0 && (
           <div className="no_replies">
-            <h2>There is no Likes yet</h2>
+            <h3>There is no Likes yet</h3>
             <p style={{ color: "rgb(136, 153, 166)", fontSize: "smaller" }}>
               Tap the heart on any Tweet to show it some love. When you do,
               it’ll show up here.

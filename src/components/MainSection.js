@@ -7,6 +7,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import { database } from "../library/firebase";
 import { getLoggedInUserTweets } from "../services/firebase";
 import { getFollowingUsersTweets } from "../services/firebase";
+import MobileUser from "./MobileUser";
 import Spinner from './Spinner'
 const MainSection = () => {
   const { activeUser } = useCurrentUser();
@@ -45,9 +46,13 @@ const MainSection = () => {
   }, [activeUser]);
 
   return (
+    <>
     <div className="mainsection">
       <div className="home_topbar">
+        <div style={{display:"flex",alignItems:'center'}}>
+        <MobileUser />
         Home
+        </div>
         <img src={topTweetsIcon} alt="Top Tweets" className="toptweets" />
       </div>
       <WhatsHappening />
@@ -76,6 +81,7 @@ const MainSection = () => {
         {isPending && <Spinner></Spinner>}
       {tweets.length === 0 && !isPending && <p style={{textAlign:'center',borderBottom:'none',marginTop:"2rem"}}>there is no tweets yet</p>}
     </div>
+    </>
   );
 };
 

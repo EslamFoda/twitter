@@ -1,0 +1,26 @@
+.mobile_profile_img_container {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.mobile_user_container {
+  position: relative;
+  display: none;
+}
+.mobile_profile_img_container img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.logout_mobile {
+  position: absolute;
+  bottom: -2rem;
+  left: 2.4rem;
+  padding: 1rem;
+  width: 10rem;
+  border-radius: 10px;
+  background-color: var(--dark-blue);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.144);
+  z-index: 50000000000000;
+}

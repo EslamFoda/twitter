@@ -27,21 +27,20 @@ body {
   color: white;
 }
 
-
 .main-timeline {
   width: 100%;
   margin: 0 auto;
   display: flex;
-   max-width: 1260px;
+  max-width: 1260px;
 }
 .leftsection {
   flex-basis: 20%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 98vh;
+  height: 100vh;
   position: fixed;
-  
+  top: 0;
 }
 
 .rightsection {
@@ -80,57 +79,119 @@ body {
 
 @media screen and (max-width: 800px) {
   :root {
-    font-size: 14px;
+    font-size: 13px;
   }
   .main-timeline {
     width: auto;
-    display: block;
   }
-  .tweet_button{
+  .tweet_button {
     height: 1rem;
     width: 90% !important;
     border-radius: 50%;
   }
-  .leftmenu_title,.active-user-details,.ellipsis-dots,.rightsection,.rm_tweet{
+  .leftmenu_title,
+  .active-user-details,
+  .ellipsis-dots,
+  .rightsection,
+  .rm_tweet {
     display: none;
   }
-  .la-plus{
+  .leftsection {
+    border-right: 1px solid #38444d;
+  }
+  .la-plus {
     display: block !important;
   }
-  .tweet_button{
-  margin-bottom: 2rem;
+  .tweet_button {
+    margin-bottom: 2rem;
   }
   .mainsection {
     margin-left: 4.5rem;
-    
+    flex-basis: 100%;
   }
-  .leftsection{
-   border-right: 1px solid var(--blue-gray-light);
-  }
-   .addTweet_model_container{
+
+  .addTweet_model_container {
     height: 100%;
     margin-top: 0 !important;
   }
-  .edit_container{
+  .edit_container {
     height: 100%;
     margin: 0 !important;
   }
-  
-  
+  .active-user-details-model,
+  .active-user-check {
+    display: block !important;
+  }
+  .signout-model {
+    left: 1rem !important;
+  }
 }
 
 @media screen and (max-width: 500px) {
   :root {
-    font-size: 12px;
+    font-size: 11.5px;
   }
-  .tab button{
+  footer {
+    display: flex !important;
+  }
+  .mobile_user_container {
+    display: block !important;
+  }
+  .floating_tweet_btn {
+    display: block !important;
+  }
+  .mainsection {
+    margin-left: 0 !important;
+    flex-basis: 100% !important;
+    width: 100% !important;
+    margin-bottom: 6rem !important;
+  }
+  .leftsection {
+    display: none;
+  }
+  .tab button {
     font-size: 14px !important;
   }
- 
+  .mainsection {
+    margin-left: 4.6rem;
+    flex-basis: 100%;
+  }
 }
-
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 405px) {
   :root {
     font-size: 10px;
+  }
+  .mainsection {
+    margin-left: 4.98rem;
+    flex-basis: 100%;
+  }
+  .schedule,
+  .poll {
+    display: none;
+  }
+  .tweet_footer {
+    gap: 0;
+  }
+  .tweet {
+    padding: 0.8em 0.7em !important;
+  }
+}
+@media screen and (max-width: 366px) {
+  html {
+    font-size: 75%;
+  }
+  .schedule,
+  .poll {
+    display: none;
+  }
+  .tweet_footer {
+    gap: 0;
+  }
+  .leftsection {
+    display: none;
+  }
+  .mainsection {
+    width: 100%;
+    margin: 0;
   }
 }

@@ -15,6 +15,7 @@ const UserProfileDetails = ({ username }) => {
   const [location, setLocation] = useState("");
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
+  const type = ["image/jpeg", "image/png"];
   const [proifleImage, setProfileImage] = useState("");
   const [backgroundImage, setBackgroundImage] = useState("");
   const onButtonClick = () => {
@@ -26,18 +27,26 @@ const UserProfileDetails = ({ username }) => {
     profileImageInput.current.click();
   };
   const secChangeHandler = (e) => {
+    const selected = e.target.files[0];
     const reader = new FileReader();
     reader.addEventListener("load", () => {
-      setProfileImage(reader.result);
+      if (selected && type.includes(selected.type)){
+        setProfileImage(reader.result);
+        profileImageInput.current.value = ''
+      }
     });
 
     reader.readAsDataURL(e.target.files[0]);
   };
 
   const changeHandler = (e) => {
+    const selected = e.target.files[0];
     const reader = new FileReader();
     reader.addEventListener("load", () => {
-      setBackgroundImage(reader.result);
+       if (selected && type.includes(selected.type)){
+         setBackgroundImage(reader.result);
+         backgroundInput.current.value = ''
+       }
     });
 
     reader.readAsDataURL(e.target.files[0]);
@@ -50,7 +59,7 @@ const UserProfileDetails = ({ username }) => {
         bio: bio,
         backgroundImage,
         profilePic: proifleImage,
-        location: location
+        location: location,
       });
       const ORDER_ITEMS = database.collection("tweets");
       ORDER_ITEMS.where("userId", "==", user.userId)
@@ -275,6 +284,7 @@ const UserProfileDetails = ({ username }) => {
               </div>
               <div className="follower_following_container">
                 <Link
+                  className="followers__follwoings"
                   to={`/profile/${username}/following`}
                   style={{ marginRight: "1rem" }}
                 >
@@ -285,7 +295,10 @@ const UserProfileDetails = ({ username }) => {
                     </span>
                   </span>
                 </Link>
-                <Link to={`/profile/${username}/followers`}>
+                <Link
+                  className="followers__follwoings"
+                  to={`/profile/${username}/followers`}
+                >
                   <span>
                     {user.followers.length}{" "}
                     <span style={{ color: "rgb(136, 153, 166)" }}>

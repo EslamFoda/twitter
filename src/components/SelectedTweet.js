@@ -34,6 +34,7 @@ const SelectedTweet = ({
   const { isOpen, setIsOpen, commentModel, setCommentModel } =
     useContext(DeleteModelContext);
   const [tweetModel, setTweetModel] = useState();
+  
 
   return (
     <>
