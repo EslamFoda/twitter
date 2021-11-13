@@ -3,8 +3,8 @@ import { useState } from "react";
 import { auth } from "../library/firebase";
 const Login = () => {
     const history = useHistory()
-        const [email, setEmail] = useState("");
-        const [password, setPassword] = useState("");
+        const [email, setEmail] = useState("eslam@gmail.com");
+        const [password, setPassword] = useState("iamsoslow1");
         const [error,setError] = useState('')
         const logIn = async(e)=>{
             e.preventDefault();

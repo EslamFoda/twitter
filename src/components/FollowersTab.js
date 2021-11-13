@@ -57,6 +57,11 @@ const FollowersTab = ({ user }) => {
             />
           ))}
         {!followers && <Spinner></Spinner>}
+        {followers && followers.length === 0 && (
+          <p style={{ margin: "5rem 0", textAlign: "center" }}>
+            there is no followers yet
+          </p>
+        )}
       </div>
 
       <div id="Paris" className="tabcontent"></div>

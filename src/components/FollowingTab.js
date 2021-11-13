@@ -58,6 +58,11 @@ const FollowingTab = ({ user }) => {
             />
           ))}
         {!following && <Spinner></Spinner>}
+        {following && following.length === 0 && (
+          <p style={{ margin: "5rem 0", textAlign: "center" }}>
+            there is no following yet
+          </p>
+        )}
       </div>
     </>
   );

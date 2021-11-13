@@ -89,10 +89,10 @@ const NotifyTabs = () => {
             />
           ))}
         {comments && comments.length === 0 && (
-          <div style={{ textAlign: "left", margin: "5rem",lineHeight:'1.7' }}>
+          <div style={{ textAlign: "left", margin: "5rem", lineHeight: "1.7" }}>
             <h2>Nothing to see here — yet</h2>
             <p style={{ color: "rgb(136, 153, 166)" }}>
-              When someone mentions you, you’ll find it here.
+              When someone comment in your tweet you, you’ll find it here.
             </p>
           </div>
         )}
@@ -112,6 +112,14 @@ const NotifyTabs = () => {
               tweetDetails={like.tweetDetails}
             />
           ))}
+        {likes && likes.length === 0 && (
+          <div style={{ textAlign: "left", margin: "5rem", lineHeight: "1.7" }}>
+            <h2>Nothing to see here — yet</h2>
+            <p style={{ color: "rgb(136, 153, 166)" }}>
+              When someone Likes your tweet you, you’ll find it here.
+            </p>
+          </div>
+        )}
       </div>
     </>
   );
